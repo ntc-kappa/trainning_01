@@ -1,0 +1,14 @@
+com\tas\entity\TypeProjectEntity.class
+com\tas\entity\DeviceEntity.class
+com\tas\test\TestMain.class
+com\tas\entity\UserProjectPositionEntity.class
+com\tas\config\JPAConfig.class
+com\tas\entity\UserEntity.class
+com\tas\entity\RoleEntity.class
+com\tas\entity\CategoryEntity.class
+com\tas\entity\DepartmentEntity.class
+com\tas\repository\DepartmentRepository.class
+com\tas\controller\HomeController.class
+com\tas\entity\ProjectEntity.class
+com\tas\entity\ProjectPositionEntity.class
+com\tas\entity\PositionEntity.class
