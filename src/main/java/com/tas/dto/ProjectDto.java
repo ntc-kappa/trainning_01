@@ -1,52 +1,20 @@
-package com.tas.entity;
+package com.tas.dto;
 
-import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Set;
 
-@Entity
-@Table(name = "project")
-public class ProjectEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class ProjectDto {
     private Integer id;
-
-    @Column(name = "title")
     private String title;
-
-    @Column(name = "checkin")
     private Date checkin;
-
-    @Column(name = "checkout")
     private Date checkout;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "status")
     private int status;
-
-    @Column(name = "create_time")
+    private String description;
     private Timestamp createTime;
-
-    @Column(name = "modify_time")
     private Timestamp modifyTime;
-
-    @Column(name = "create_by")
     private String createBy;
-
-    @Column(name = "modify_by")
     private String modifyBy;
-
-    @ManyToOne
-    @JoinColumn(name = "id_type_project", nullable = false)
-    private TypeProjectEntity typeProjectEntity;
-
-    @OneToMany(mappedBy = "projectEntity")
-    private Set<UserProjectPositionEntity> userProjectPositions;
+    private String typeProjectName;
 
     public Integer getId() {
         return id;
@@ -80,20 +48,20 @@ public class ProjectEntity {
         this.checkout = checkout;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Timestamp getCreateTime() {
@@ -128,19 +96,11 @@ public class ProjectEntity {
         this.modifyBy = modifyBy;
     }
 
-    public TypeProjectEntity getTypeProjectEntity() {
-        return typeProjectEntity;
+    public String getTypeProjectName() {
+        return typeProjectName;
     }
 
-    public void setTypeProjectEntity(TypeProjectEntity typeProjectEntity) {
-        this.typeProjectEntity = typeProjectEntity;
-    }
-
-    public Set<UserProjectPositionEntity> getUserProjectPositions() {
-        return userProjectPositions;
-    }
-
-    public void setUserProjectPositions(Set<UserProjectPositionEntity> userProjectPositions) {
-        this.userProjectPositions = userProjectPositions;
+    public void setTypeProjectName(String typeProjectName) {
+        this.typeProjectName = typeProjectName;
     }
 }
