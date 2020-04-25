@@ -9,4 +9,6 @@ public interface ProjectService {
 
     ProjectDto getById(Integer id);
 
+    ProjectDto save(ProjectDto projectDto);
+
 }

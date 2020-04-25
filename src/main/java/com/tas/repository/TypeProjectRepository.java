@@ -9,4 +9,6 @@ public interface TypeProjectRepository extends JpaRepository<TypeProjectEntity, 
     List<TypeProjectEntity> findAll();
 
     TypeProjectEntity findOneById(Integer id);
+
+    TypeProjectEntity findOneByCode(String code);
 }

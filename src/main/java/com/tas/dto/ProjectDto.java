@@ -1,20 +1,39 @@
 package com.tas.dto;
 
-import java.sql.Date;
+import com.tas.validator.annotation.DateFormat;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.sql.Timestamp;
 
 public class ProjectDto {
     private Integer id;
+
+    @NotBlank(message = "Điền tên dự án !")
     private String title;
-    private Date checkin;
-    private Date checkout;
+
+    @DateFormat
+    private String checkin;
+
+    @DateFormat
+    private String checkout;
+
+    @Min(value = 0, message = "Tiến độ lớn hơn 0% !")
+    @Max(value = 100, message = "Tiến độ nhỏ hơn 100% !")
     private int status;
+
     private String description;
+
     private Timestamp createTime;
     private Timestamp modifyTime;
     private String createBy;
     private String modifyBy;
+
     private String typeProjectName;
+
+    @NotBlank(message = "Chọn kiểu dự án !")
+    private String typeProjectCode;
 
     public Integer getId() {
         return id;
@@ -32,19 +51,19 @@ public class ProjectDto {
         this.title = title;
     }
 
-    public Date getCheckin() {
+    public String getCheckin() {
         return checkin;
     }
 
-    public void setCheckin(Date checkin) {
+    public void setCheckin(String checkin) {
         this.checkin = checkin;
     }
 
-    public Date getCheckout() {
+    public String getCheckout() {
         return checkout;
     }
 
-    public void setCheckout(Date checkout) {
+    public void setCheckout(String checkout) {
         this.checkout = checkout;
     }
 
@@ -102,5 +121,31 @@ public class ProjectDto {
 
     public void setTypeProjectName(String typeProjectName) {
         this.typeProjectName = typeProjectName;
+    }
+
+    public String getTypeProjectCode() {
+        return typeProjectCode;
+    }
+
+    public void setTypeProjectCode(String typeProjectCode) {
+        this.typeProjectCode = typeProjectCode;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", checkin=" + checkin +
+                ", checkout=" + checkout +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", createTime=" + createTime +
+                ", modifyTime=" + modifyTime +
+                ", createBy='" + createBy + '\'' +
+                ", modifyBy='" + modifyBy + '\'' +
+                ", typeProjectName='" + typeProjectName + '\'' +
+                ", typeProjectCode='" + typeProjectCode + '\'' +
+                '}';
     }
 }

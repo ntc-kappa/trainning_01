@@ -42,6 +42,8 @@
                    location="classpath:/static/plugins/fontawesome-free/css/"/>
     <mvc:resources mapping="/plugins/fontawesome-free/webfonts/**"
                    location="classpath:/static/plugins/fontawesome-free/webfonts/"/>
+    <mvc:resources mapping="/plugins/jquery/**"
+                   location="classpath:/static/plugins/jquery/"/>
 
     <!-- Load Annotation @Valid,@ControllerAdive... -->
     <mvc:annotation-driven/>
