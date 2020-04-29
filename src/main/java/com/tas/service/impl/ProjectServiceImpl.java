@@ -8,6 +8,8 @@ import com.tas.repository.ProjectRepository;
 import com.tas.repository.TypeProjectRepository;
 import com.tas.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -55,6 +57,41 @@ public class ProjectServiceImpl implements ProjectService {
             projectEntity.setTypeProjectEntity(typeProjectEntity);
             ProjectEntity result = projectRepository.save(projectEntity);
             return projectConverter.toDto(result);
+        }
+    }
+
+    @Override
+    public boolean deleteById(Integer id) {
+        if (id == null)
+            return false;
+        try {
+            projectRepository.delete(id);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    @Override
+    public List<ProjectDto> getAll(int numberOnPage) {
+        Pageable pageable = new PageRequest(numberOnPage, 4);
+        List<ProjectEntity> entities = projectRepository.findAll(pageable).getContent();
+        List<ProjectDto> dtos = projectConverter.toListDto(entities);
+        return dtos;
+    }
+
+    @Override
+    public long getCount() {
+        return projectRepository.count();
+    }
+
+    @Override
+    public long deleteMany(Integer[] ids) {
+        try {
+            projectRepository.deleteSomeProject(ids);
+            return ids.length;
+        } catch (Exception ex) {
+            return 0;
         }
     }
 

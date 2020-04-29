@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -27,9 +24,10 @@ public class ProjectController {
     private TypeProjectService typeProjectService;
 
     @RequestMapping(value = {"/manager-tranning/projects"}, method = RequestMethod.GET)
-    public ModelAndView managerProjectsPage() {
+    public ModelAndView managerProjectsPage(@RequestParam(required = false, name = "page", defaultValue = "1") Integer page) {
         ModelAndView mav = new ModelAndView("project/list-project");
-        mav.addObject("projects", projectService.getAll());
+        mav.addObject("projects", projectService.getAll(page - 1));
+        mav.addObject("totalPage", (long) (Math.ceil((double) projectService.getCount() / 4)));
         return mav;
     }
 

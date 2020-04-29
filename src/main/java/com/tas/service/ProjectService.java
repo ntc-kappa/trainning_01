@@ -11,4 +11,12 @@ public interface ProjectService {
 
     ProjectDto save(ProjectDto projectDto);
 
+    boolean deleteById(Integer id);
+
+    List<ProjectDto> getAll(int numberOnPage);
+
+    long getCount();
+
+    long deleteMany(Integer[] ids);
+
 }
