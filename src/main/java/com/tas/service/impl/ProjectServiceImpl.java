@@ -95,4 +95,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
+    @Override
+    public List<ProjectDto> getAll(String likeName) {
+        List<ProjectEntity> entities = projectRepository.findByTitleContaining(likeName);
+        List<ProjectDto> dtos = projectConverter.toListDto(entities);
+        return dtos;
+    }
+
 }
