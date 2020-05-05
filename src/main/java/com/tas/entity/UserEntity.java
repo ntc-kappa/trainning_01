@@ -1,6 +1,11 @@
 package com.tas.entity;
 
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -40,16 +45,16 @@ public class UserEntity {
 
     @Column(name = "gender")
     private boolean gender;
-
+    @CreatedDate
     @Column(name = "create_time")
     private Timestamp createTime;
-
+    @LastModifiedDate
     @Column(name = "modify_time")
     private Timestamp modifyTime;
-
+    @CreatedBy
     @Column(name = "create_by")
     private String createBy;
-
+    @LastModifiedBy
     @Column(name = "modify_by")
     private String modifyBy;
 
