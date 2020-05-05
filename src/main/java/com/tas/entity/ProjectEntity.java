@@ -41,7 +41,7 @@ public class ProjectEntity {
     @Column(name = "modify_by")
     private String modifyBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_type_project", nullable = false)
     private TypeProjectEntity typeProjectEntity;
 
