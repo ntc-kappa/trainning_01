@@ -36,7 +36,7 @@ public class DeviceEntity {
     @Column(name = "modify_by")
     private String modifyBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_category", nullable = false)
     private CategoryEntity categoryEntity;
 

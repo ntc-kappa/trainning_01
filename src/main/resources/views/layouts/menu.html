@@ -16,7 +16,7 @@
     <div class="sidebar">
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+            <ul id="list-menu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a th:href="@{/manager-tranning/devices}" class="nav-link">
                         <i class="nav-icon far fa-circle text-info"></i>
                         <p th:text="#{menu.child.four}"></p>
                     </a>
@@ -56,6 +56,16 @@
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
+
+    <script type="text/javascript">
+        const url = window.location.href;
+        var menus = document.getElementById("list-menu").getElementsByTagName("a");
+        for (let i = 0; i < menus.length; i++) {
+            if(url.includes(menus[i].href)){
+                menus[i].className += " active";
+            }
+        }
+    </script>
 </aside>
 </body>
 </html>

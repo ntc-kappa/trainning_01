@@ -72,4 +72,15 @@
         <property name="cookieMaxAge" value="360000"/>
     </bean>
 
+    <!-- For use Validator I18N -->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <!-- Load validator in I18N Spring mvc -->
+    <mvc:annotation-driven validator="validator"/>
+
+    <bean id="model-mapper" class="org.modelmapper.ModelMapper">
+    </bean>
+
 </beans>

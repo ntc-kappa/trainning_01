@@ -76,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="card-body table-responsive p-0">
-                                <table class="table table-hover text-nowrap">
+                                <table id="myTable" class="table table-hover text-nowrap">
                                     <thead>
                                     <tr>
                                         <th>
@@ -169,6 +169,7 @@
         }
 
         function handleCheckAll() {
+            const rows = document.getElementById("myTable").rows.length - 1;
             var countL = 0;
             var countR = 0;
             const checkboxs = $("input[name='checkbox-delete']");
@@ -179,10 +180,9 @@
                     countR++;
                 }
             }
-            if (countL === 4) {
+            if (countL === rows) {
                 $("input[name='checkbox-delete-all']").prop("checked", true);
-            }
-            if (countR === 4) {
+            } else {
                 $("input[name='checkbox-delete-all']").prop("checked", false);
             }
         }
