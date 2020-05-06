@@ -3,6 +3,7 @@ package com.tas.controller;
 import com.tas.common.PageConfig;
 import com.tas.entity.CategoryEntity;
 import com.tas.repository.CategoryRepository;
+import com.tas.service.UserEntityDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CategoryController {
     @Autowired
     private CategoryRepository repository;
-
+//    @@Autowired
+//    private UserEntityDetailService userEntityDetailService;
     @RequestMapping(value = {"/category/{numberPage}"}, method = RequestMethod.GET)
     public String homeCategory(@PathVariable("numberPage") int numberPage, HttpServletRequest request, Model model) {
         String notify = request.getParameter("notify");
@@ -38,9 +40,9 @@ public class CategoryController {
         model.addAttribute("before", numberPage > 0 ? numberPage - 1 : 0);
 //        model.addAttribute("before", 2);
         model.addAttribute("after", numberPage == page.getTotalPages() ? numberPage : numberPage + 1);
+//        System.out.println(userEntityDetailService.);
 
-
-        return "category";
+        return "category-dir/category";
     }
 
     @RequestMapping(value = {"/delete-category/{id}"}, method = RequestMethod.GET)
@@ -50,9 +52,9 @@ public class CategoryController {
         String notify = "Xóa id " + id + " thành công";
         model.addAttribute("notify", notify);
 
-        return new RedirectView("/trainning_1_war_exploded/category/0");
+        return new RedirectView("/trainning_01_war_exploded/category/0");
     }
-    @RequestMapping(value = {"/update-category/{id}"})
+    @RequestMapping(value = {"update-category/{id}"})
     public String UpadateCategory(){
         return "update-category";
     }
