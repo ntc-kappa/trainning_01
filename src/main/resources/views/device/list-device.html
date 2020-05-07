@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quản lý dự án</title>
+    <title>Quản lý trang thiết bị</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -33,12 +33,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0 text-dark" th:utext="#{manager.project.title}">Danh sách dự án</h4>
+                        <h4 class="m-0 text-dark" th:utext="#{manager.device.title}">Danh sách thiết bị</h4>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/" th:utext="#{header.title}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active" th:utext="#{menu.child.five}">Quản lý dự án</li>
+                            <li class="breadcrumb-item active" th:utext="#{menu.child.four}">Quản lý dự án</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -54,10 +54,13 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a class="btn btn-primary btn-sm" th:href="@{/manager-tranning/projects/}"
+                                <a class="btn btn-primary btn-sm" th:href="@{/manager-tranning/devices/}"
                                    th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
                                 <a id="btnDelete" class="btn btn-danger btn-sm" href="#" th:title="#{btn.remove}"><i
                                         class="fas fa-trash"></i></a>
+
+                                <a class="btn btn-success btn-sm" href="#" th:title="#{btn.import}"><i
+                                        class="fas fa-file-upload"></i></a>
                                 <div class="card-tools">
                                     <form action="/manager-tranning/projects/search" method="GET">
                                         <div class="input-group input-group-sm">
@@ -82,41 +85,33 @@
                                         <th>
                                             <input type="checkbox" name="checkbox-delete-all">
                                         </th>
-                                        <th th:utext="#{manager.project.table.id}">ID</th>
-                                        <th th:utext="#{manager.project.table.name}">Tên dự án</th>
-                                        <th style="text-align: center" th:utext="#{manager.project.table.startdate}">
-                                            Ngày bắt đầu
+                                        <th th:utext="#{manager.device.table.id}">ID</th>
+                                        <th th:utext="#{manager.device.table.code}">mã thiết bị</th>
+                                        <th th:utext="#{manager.device.table.name}">Tên Thiết bị</th>
+                                        <th th:utext="#{manager.device.table.price}">
+                                            Giá
                                         </th>
-                                        <th style="text-align: center" th:utext="#{manager.project.table.enddate}">Ngày
-                                            kết thúc
-                                        </th>
-                                        <th style="text-align: center" th:utext="#{manager.project.table.status}">Trạng
-                                            thái
-                                        </th>
-                                        <th th:utext="#{manager.project.table.type}">Kiểu dự án</th>
+                                        <th th:utext="#{manager.device.table.category}">Kiểu thiết bị</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="project : ${projects}">
+                                    <tr th:each="device : ${devices}">
                                         <td style="width: 10px">
-                                            <input type="checkbox" th:id="${project.id}" name="checkbox-delete">
+                                            <input type="checkbox" th:id="${device.id}" name="checkbox-delete">
                                         </td>
-                                        <td th:utext="${project.id}"></td>
-                                        <td th:utext="${project.title}"></td>
-                                        <td style="text-align: center" th:utext="${project.checkin}"></td>
-                                        <td style="text-align: center" th:utext="${project.checkout}"></td>
-                                        <td style="text-align: center">
-                                            <span class="badge bg-danger" th:text="${project.status} + '%'"></span>
-                                        </td>
-                                        <td th:utext="${project.typeProjectName}"></td>
+                                        <td th:utext="${device.id}"></td>
+                                        <td th:utext="${device.code}"></td>
+                                        <td th:utext="${device.name}"></td>
+                                        <td style="text-align: right" th:utext="${device.price}"></td>
+                                        <td th:utext="${device.nameCategory}"></td>
                                         <td style="width: 100px">
                                             <a class="btn btn-primary btn-sm" href="#" th:title="#{btn.detail}">
                                                 <i class="fas fa-eye">
                                                 </i>
                                             </a>
                                             <a class="btn btn-info btn-sm" th:title="#{btn.edit}"
-                                               th:href="@{/manager-tranning/projects/} + ${project.id}">
+                                               th:href="@{/manager-tranning/devices/} + ${device.id}">
                                                 <i class="fas fa-pencil-alt">
                                                 </i>
                                             </a>
@@ -156,7 +151,6 @@
 <script th:src="@{/dist/js/adminlte.js}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-
         checkedSetting();
 
         function checkedSetting() {
@@ -220,13 +214,13 @@
                 }
             }
             if (ids.length === 0) {
-                alert("Bạn chưa chọn dự án nào !")
+                alert("Bạn chưa thiết bị nào !")
             } else {
                 //call Api
                 var r = confirm("Bạn có chắc chắc muốn xóa ?");
                 if (r === true) {
                     const req = $.ajax({
-                        url: "/api/v1/projects/",
+                        url: "/api/v1/devices/",
                         type: "DELETE",
                         dataType: "json",
                         contentType: "application/json",
@@ -235,7 +229,7 @@
                     req.done(function (resp) {
                         if (resp.status == 200) {
                             alert("Xóa thành công !")
-                            window.location.href = "http://localhost:8080/manager-tranning/projects"
+                            window.location.href = "http://localhost:8080/manager-tranning/devices"
                         } else {
                             alert(resp.message);
                         }
@@ -260,7 +254,7 @@
     var page = getVal("page");
     pagination.append(
         "<li class='paginate_button page-item previous disabled'>" +
-        "<a href='/manager-tranning/projects?page=" + (page - 1) + "' aria-controls='example2' data-dt-idx='0' tabindex='0' class='page-link'><</a></li>"
+        "<a href='/manager-tranning/devices?page=" + (page - 1) + "' aria-controls='example2' data-dt-idx='0' tabindex='0' class='page-link'><</a></li>"
     );
     for (let i = 1; i <= totalPage; i++) {
         var text = "";
@@ -269,12 +263,12 @@
         } else {
             text += "<li class='paginate_button page-item'>";
         }
-        text += "<a href='/manager-tranning/projects?page=" + i + "' aria-controls='example2' data-dt-idx='" + i + "' tabindex='0' class='page-link'>" + i + "</a></li>";
+        text += "<a href='/manager-tranning/devices?page=" + i + "' aria-controls='example2' data-dt-idx='" + i + "' tabindex='0' class='page-link'>" + i + "</a></li>";
         pagination.append(text);
     }
     pagination.append(
         "<li class='paginate_button page-item next'>" +
-        "<a href='/manager-tranning/projects?page=" + (page + 1) + "' aria-controls='example2' data-dt-idx='7' tabindex='0' class='page-link'>></a></li>"
+        "<a href='/manager-tranning/devices?page=" + (page + 1) + "' aria-controls='example2' data-dt-idx='7' tabindex='0' class='page-link'>></a></li>"
     );
 </script>
 </body>

@@ -30,4 +30,6 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Integer>
     void deleteSomeProject(Integer[] ids);
 
     Page<ProjectEntity> findAll(Pageable pageable);
+
+    List<ProjectEntity> findByTitleContaining(String name);
 }

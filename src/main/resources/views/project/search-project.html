@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quản lý dự án</title>
+    <title>Tìm kiếm</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -33,12 +33,15 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0 text-dark" th:utext="#{manager.project.title}">Danh sách dự án</h4>
+                        <h4 class="m-0 text-dark">Danh sách tìm kiếm : <i th:utext="${titleSearch}"></i>
+                        </h4>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/" th:utext="#{header.title}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active" th:utext="#{menu.child.five}">Quản lý dự án</li>
+                            <li class="breadcrumb-item"><a href="/manager-tranning/projects"
+                                                           th:utext="#{menu.child.five}"></a></li>
+                            <li class="breadcrumb-item active" th:utext="#{manager.project.title.search}">Tìm kiếm</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -54,17 +57,15 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a class="btn btn-primary btn-sm" th:href="@{/manager-tranning/projects/}"
-                                   th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
                                 <a id="btnDelete" class="btn btn-danger btn-sm" href="#" th:title="#{btn.remove}"><i
                                         class="fas fa-trash"></i></a>
                                 <div class="card-tools">
                                     <form action="/manager-tranning/projects/search" method="GET">
                                         <div class="input-group input-group-sm">
-
                                             <input type="text" name="title" class="form-control float-right"
                                                    style="height: 40px !important;"
                                                    th:placeholder="#{content.search}"
+                                                   th:value="${titleSearch}"
                                                    autocomplete="off">
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-default"><i
@@ -76,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="card-body table-responsive p-0">
-                                <table id="myTable" class="table table-hover text-nowrap">
+                                <table class="table table-hover text-nowrap">
                                     <thead>
                                     <tr>
                                         <th>
@@ -132,10 +133,6 @@
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
-        <div style="display: flex;">
-            <ul id="pagination" class="pagination" style="margin: auto;">
-            </ul>
-        </div>
     </div>
     <!-- /.content-wrapper -->
 
@@ -169,7 +166,6 @@
         }
 
         function handleCheckAll() {
-            const rows = document.getElementById("myTable").rows.length - 1;
             var countL = 0;
             var countR = 0;
             const checkboxs = $("input[name='checkbox-delete']");
@@ -180,9 +176,10 @@
                     countR++;
                 }
             }
-            if (countL === rows) {
+            if (countL === 4) {
                 $("input[name='checkbox-delete-all']").prop("checked", true);
-            } else {
+            }
+            if (countR === 4) {
                 $("input[name='checkbox-delete-all']").prop("checked", false);
             }
         }
@@ -251,31 +248,6 @@
         })
 
     });
-</script>
-
-<!--Paging-->
-<script th:inline="javascript">
-    const pagination = $("#pagination");
-    var totalPage = [[${totalPage}]];
-    var page = getVal("page");
-    pagination.append(
-        "<li class='paginate_button page-item previous disabled'>" +
-        "<a href='/manager-tranning/projects?page=" + (page - 1) + "' aria-controls='example2' data-dt-idx='0' tabindex='0' class='page-link'><</a></li>"
-    );
-    for (let i = 1; i <= totalPage; i++) {
-        var text = "";
-        if (page == i) {
-            text += "<li class='paginate_button page-item active'>";
-        } else {
-            text += "<li class='paginate_button page-item'>";
-        }
-        text += "<a href='/manager-tranning/projects?page=" + i + "' aria-controls='example2' data-dt-idx='" + i + "' tabindex='0' class='page-link'>" + i + "</a></li>";
-        pagination.append(text);
-    }
-    pagination.append(
-        "<li class='paginate_button page-item next'>" +
-        "<a href='/manager-tranning/projects?page=" + (page + 1) + "' aria-controls='example2' data-dt-idx='7' tabindex='0' class='page-link'>></a></li>"
-    );
 </script>
 </body>
 

@@ -55,4 +55,12 @@ public class ProjectController {
         return "redirect:/manager-tranning/projects";
     }
 
+    @RequestMapping(value = {"/manager-tranning/projects/search"}, method = RequestMethod.GET)
+    public ModelAndView managerProjectsPageSearch(@RequestParam(required = false, name = "title", defaultValue = "") String title) {
+        ModelAndView mav = new ModelAndView("project/search-project");
+        mav.addObject("titleSearch", title);
+        mav.addObject("projects", projectService.getAll(title));
+        return mav;
+    }
+
 }

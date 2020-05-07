@@ -19,4 +19,6 @@ public interface ProjectService {
 
     long deleteMany(Integer[] ids);
 
+    List<ProjectDto> getAll(String likeName);
+
 }

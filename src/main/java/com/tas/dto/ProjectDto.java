@@ -10,17 +10,17 @@ import java.sql.Timestamp;
 public class ProjectDto {
     private Integer id;
 
-    @NotBlank(message = "Điền tên dự án !")
+    @NotBlank(message = "{manager.project.notify.title}")
     private String title;
 
-    @DateFormat
+    @DateFormat(message = "{manager.project.notify.dateformat}")
     private String checkin;
 
-    @DateFormat
+    @DateFormat(message = "{manager.project.notify.dateformat}")
     private String checkout;
 
-    @Min(value = 0, message = "Tiến độ lớn hơn 0% !")
-    @Max(value = 100, message = "Tiến độ nhỏ hơn 100% !")
+    @Min(value = 0, message = "{manager.project.notify.status.min}")
+    @Max(value = 100, message = "{manager.project.notify.status.max}")
     private int status;
 
     private String description;
@@ -32,7 +32,7 @@ public class ProjectDto {
 
     private String typeProjectName;
 
-    @NotBlank(message = "Chọn kiểu dự án !")
+    @NotBlank(message = "{manager.project.notify.typeprojectcode}")
     private String typeProjectCode;
 
     public Integer getId() {
