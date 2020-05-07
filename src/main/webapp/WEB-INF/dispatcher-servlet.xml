@@ -42,11 +42,34 @@
                    location="classpath:/static/plugins/fontawesome-free/css/"/>
     <mvc:resources mapping="/plugins/fontawesome-free/webfonts/**"
                    location="classpath:/static/plugins/fontawesome-free/webfonts/"/>
+    <mvc:resources mapping="/plugins/jquery/**"
+                   location="classpath:/static/plugins/jquery/"/>
 
     <!-- Load Annotation @Valid,@ControllerAdive... -->
     <mvc:annotation-driven/>
 
     <!-- Load Bean Respository -->
     <jpa:repositories base-package="com.tas.repository"/>
+
+    <!-- For reading properties files -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="/WEB-INF/i18n/messages"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- Locale Change Interceptor to achieve internationalization. -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+                <property name="paramName" value="language"></property>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- Cookie Resolver -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="cookieMaxAge" value="360000"/>
+    </bean>
 
 </beans>
