@@ -18,12 +18,17 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer> {
 
 
     @Modifying
-
     @Transactional
-
     @Query(value = "DELETE user FROM user  WHERE  user.id IN ?1", nativeQuery = true)
-
     void deleteSomeUser(Integer[] ids);
+
+
+    @Query(value = "SELECT * from user  WHERE  user.user_name = ?1", nativeQuery = true)
+    UserEntity findByUsername(String username);
+
+
+    @Query(value = "SELECT * from user  WHERE  user.email = ?1", nativeQuery = true)
+    UserEntity findByEmail(String Email);
 
 
 }

@@ -1,5 +1,7 @@
 package com.tas.service.impl;
 
+import com.tas.converter.UserConverter;
+import com.tas.dto.UserDto;
 import com.tas.entity.UserEntity;
 import com.tas.repository.UserRepository;
 import com.tas.service.UserService;
@@ -17,8 +19,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserEntity> getAllEntity(){
-        return userRepository.findAll();
+    @Autowired
+    private UserConverter userConverter;
+
+    public List<UserDto> getAllEntity(){
+        List<UserEntity> entities=userRepository.findAll();
+        List<UserDto> dtos=userConverter.toListDto(entities);
+        return dtos;
     }
 
     @Override
@@ -29,12 +36,18 @@ public class UserServiceImpl implements UserService {
         return userEntities;
     }
 
-    public UserEntity findById(Integer id){
-        return userRepository.findById(id);
+    public UserDto findById(Integer id){
+        UserEntity user=userRepository.findById(id);
+        UserDto dto=userConverter.toDto(user);
+        return dto;
     }
-    public void save(UserEntity userEntity){
-        userRepository.save(userEntity);
+
+    @Override
+    public void save(UserDto dto) {
+        userRepository.save(userConverter.toEntity(dto));
     }
+
+
 
     @Override
     public long getCount() {
@@ -74,6 +87,41 @@ public class UserServiceImpl implements UserService {
 
         }
 
+    }
+
+    @Override
+    public boolean findByUserName(String username) {
+        try {
+
+            UserEntity user=userRepository.findByUsername(username);
+
+            if(user ==null) {
+                return true;
+            } else return false;
+
+        } catch (Exception ex) {
+
+            return false;
+
+        }
+    }
+
+    @Override
+    public boolean findEmail(String email) {
+        try {
+
+            UserEntity user=userRepository.findByEmail(email);
+
+
+            if(user ==null) {
+                return true;
+            } else return false;
+
+        } catch (Exception ex) {
+
+            return false;
+
+        }
     }
 
 

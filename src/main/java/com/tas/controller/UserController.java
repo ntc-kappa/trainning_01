@@ -2,6 +2,7 @@ package com.tas.controller;
 
 import com.tas.dto.ProjectDto;
 import com.tas.dto.TypeProjectDto;
+import com.tas.dto.UserDto;
 import com.tas.entity.UserEntity;
 import com.tas.repository.UserRepository;
 import com.tas.service.UserService;
@@ -32,24 +33,27 @@ public class UserController {
     }
     @RequestMapping(value = {"/manager-tranning/users/{id}", "/manager-tranning/users/"}, method = RequestMethod.GET)
     public ModelAndView editsUserPage(@PathVariable(required = false) Integer id) {
-        List<UserEntity> user = userService.getAllEntity();
-        UserEntity userEntity = new UserEntity();
+        List<UserDto> user = userService.getAllEntity();
+        UserDto dto = new UserDto();
         if (id != null) {
-            userEntity = userService.findById(id);
+            dto= userService.findById(id);
+
         }
         ModelAndView mav = new ModelAndView("user/user-edit");
-        mav.addObject("user", userEntity);
+        mav.addObject("user", dto);
 
         return mav;
     }
     @RequestMapping(value = {"/manager-tranning/users/"}, method = RequestMethod.POST)
-    public String submitFormProject(@ModelAttribute(name = "user") @Valid final UserEntity userEntity, BindingResult bindingResult, Model model) {
+    public String submitFormUser(@ModelAttribute(name = "user") @Valid final UserDto dto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            List<UserEntity> userEntities = userService.getAllEntity();
+            List<UserDto> userEntities = userService.getAllEntity();
             model.addAttribute("users", userEntities);
             return "user/user-edit";
         }
-        userService.save(userEntity);
+           userService.save(dto);
+        System.out.println(dto.toString());
+
         return "redirect:/manager-tranning/users";
     }
 

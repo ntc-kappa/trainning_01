@@ -2,6 +2,7 @@ package com.tas.test;
 
 import com.tas.dto.ProjectDto;
 import com.tas.entity.ProjectEntity;
+import com.tas.entity.UserEntity;
 import com.tas.repository.ProjectRepository;
 import com.tas.service.ProjectService;
 import com.tas.service.UserService;
@@ -20,7 +21,10 @@ public class TestMain {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("beans.xml");
         UserService userService=applicationContext.getBean(UserServiceImpl.class);
         Integer[] ids=new Integer[]{19,20};
-        System.out.println(userService.deleteMany(ids));
+        System.out.println(userService.findEmail("dat@gmail.com"));
+
+
+
     }
 
 }

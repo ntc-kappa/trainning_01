@@ -55,37 +55,36 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card card-primary">
-<!--                            <div class="card-header">-->
-<!--                                <h3 class="card-title">Dự án</h3>-->
-<!--                            </div>-->
-                            <!-- /.card-header -->
-                            <!-- form start -->
+
                             <form role="form" th:action="@{/manager-tranning/users/}" method="POST" th:object="${user}">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <div style="display: flex;justify-content: space-between">
+                                       <div style="display: flex;justify-content: space-between">
                                             <label>Full Name</label>
-
+                                            <span th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" style="color: red"></span>
                                         </div>
-                                        <input type="text" class="form-control" th:field="*{fullName}" placeholder="FullName ..." autocomplete="off">
+                                        <input type="text" class="form-control" th:field="*{fullName}">
                                     </div>
                                     <div class="form-group">
                                         <div style="display: flex;justify-content: space-between">
                                             <label>User Name</label>
+                                            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></span>
 
                                         </div>
-                                        <input type="text" class="form-control" th:field="*{username}" >
+                                        <input type="text" id="username" class="form-control" th:field="*{username}" autocomplete="off">
                                     </div>
                                     <div class="form-group">
                                         <div style="display: flex;justify-content: space-between">
                                             <label>Password</label>
+                                            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></span>
 
                                         </div>
-                                        <input type="password" class="form-control" th:field="*{password}"  >
+                                        <input type="password" class="form-control" th:field="*{password}" autocomplete="off" >
                                     </div>
                                     <div class="form-group">
                                         <div style="display: flex;justify-content: space-between">
                                             <label>Address</label>
+
 
                                         </div>
                                         <input type="text" class="form-control" th:field="*{address}" >
@@ -93,9 +92,10 @@
                                     <div class="form-group">
                                         <div style="display: flex;justify-content: space-between">
                                             <label>Email</label>
+                                            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red"></span>
 
                                         </div>
-                                        <input type="text" class="form-control" th:field="*{email}" >
+                                        <input type="text" id="email" class="form-control" th:field="*{email}" autocomplete="off" >
 
                                     </div>
                                     <div class="form-group">
@@ -103,47 +103,43 @@
                                             <label>Phone Number</label>
 
                                         </div>
-                                        <input type="text" class="form-control" th:field="*{phoneNumber}" >
+                                        <input type="text" class="form-control" th:field="*{phoneNumber}" autocomplete="off" >
                                     </div>
 
                                     <div class="form-group">
-                                         <div style="display: flex;justify-content: space-between">
-                                              <label>Gender</label>
+                                        <div style="display: flex;justify-content: space-between">
+                                            <label>Gender</label>
 
-                                              </div>
-                                                  <input type="radio" th:field="*{gender}" th:value="1" />
-                                                  <label th:text="male"/>
-                                                  <input type="radio" th:field="*{gender}" th:value="0" />
-                                                  <label th:text="female"/>
-                                              </div>
+                                        </div>
+                                        <input type="radio" th:field="*{gender}" th:value="1" />
+                                        <label th:text="male"/>
+                                        <input type="radio" th:field="*{gender}" th:value="0" />
+                                        <label th:text="female"/>
                                     </div>
-                                     
-
-
                                 </div>
-
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                </div>
-                            </form>
+                                <input type="hidden" th:field="*{id}">
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
+                        </form>
                     </div>
                 </div>
-                <!-- /.row (main row) -->
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <footer th:replace="layouts/footer :: footer">
-    </footer>
+            </div>
+            <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<footer th:replace="layouts/footer :: footer">
+</footer>
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 
@@ -152,6 +148,7 @@
 <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/dist/js/adminlte.js}"></script>
+
 </body>
 
 </html>
