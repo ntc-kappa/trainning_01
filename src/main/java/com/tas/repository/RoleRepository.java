@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface RoleRepository extends JpaRepository<RoleEntity,Integer> {
 
-    
+
     Set<RoleEntity> findByUserEntities();
 }
