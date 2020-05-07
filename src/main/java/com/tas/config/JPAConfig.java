@@ -66,4 +66,5 @@ public class JPAConfig {
         properties.setProperty("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
+
 }

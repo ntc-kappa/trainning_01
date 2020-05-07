@@ -58,9 +58,10 @@
                                    th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
                                 <a id="btnDelete" class="btn btn-danger btn-sm" href="#" th:title="#{btn.remove}"><i
                                         class="fas fa-trash"></i></a>
-
                                 <a class="btn btn-success btn-sm" href="#" th:title="#{btn.import}"><i
                                         class="fas fa-file-upload"></i></a>
+                                <a class="btn btn-info btn-sm" th:href="@{/manager-tranning/exportDeviceCSV}" title="Download"><i
+                                        class="fas fa-file-download"></i></a>
                                 <div class="card-tools">
                                     <form action="/manager-tranning/projects/search" method="GET">
                                         <div class="input-group input-group-sm">

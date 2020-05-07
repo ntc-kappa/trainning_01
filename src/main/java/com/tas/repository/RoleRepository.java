@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;
 
-public interface RoleRepository extends JpaRepository<RoleEntity,Integer> {
+public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
 
 
-    Set<RoleEntity> findByUserEntities();
+//    Set<RoleEntity> findByUserEntities();
 }

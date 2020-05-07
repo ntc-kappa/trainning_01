@@ -7,16 +7,19 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class ExcelUtil {
 
-    public static void exportDeviceExcel(EnumUtil.DeviceHeader deviceHeader, List<DeviceDto> deviceDtos, HttpServletResponse response) {
+    private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+    public static void exportDeviceExcel(List<DeviceDto> deviceDtos, HttpServletResponse response) {
 
         //setResponse
         response.setContentType("application/octet-stream:UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename=" + ("device_" + new Date().getTime() + ".xlsx"));
+        response.setHeader("Content-Disposition", "attachment; filename=" + ("device_" + sdf.format(new Date()) + ".xlsx"));
         response.setHeader("charset", "UTF-8");
         response.setStatus(200);
 

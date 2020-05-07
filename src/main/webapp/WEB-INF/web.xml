@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-    <display-name>tranning-1</display-name>
+    <display-name>tranning-01</display-name>
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>
