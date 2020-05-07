@@ -57,15 +57,22 @@
                             <div class="card-header">
                                 <h3 class="card-title" th:utext="${notify}" style="color: blue"></h3>
                                 <br>
-                                <a class="btn btn-primary btn-sm" th:href="@{/manager-tranning/projects/}"
-                                   th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
-                                <a id="btnDelete" class="btn btn-danger btn-sm" href="#" th:title="#{btn.remove}"><i
-                                        class="fas fa-trash"></i></a>
+                                <div class="row">
+                                    <a class="btn btn-primary btn-sm" th:href="@{/category/add/}"
+                                       th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
+                                    <!--                                <a  class="btn btn-danger btn-sm" onclick="delete()"-->
+                                    <!--                                   th:title="#{btn.remove}"><i-->
+                                    <!--                                        class="fas fa-trash"></i></a>-->
+                                    <form id="formDelete" method="post" th:action="@{/category/delete}" >
+                                        <button type="submit" class="btn btn-danger btn-sm" id="btnDelete">
+                                            <i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
                                 <div class="card-tools">
-                                    <form action="/manager-tranning/projects/search" method="GET">
+                                    <form action="/trainning_01_war_exploded/category/search" method="GET">
                                         <div class="input-group input-group-sm">
 
-                                            <input type="text" name="title" class="form-control float-right"
+                                            <input type="text" name="name" class="form-control float-right"
                                                    style="height: 40px !important;"
                                                    th:placeholder="#{content.search}"
                                                    autocomplete="off">
@@ -87,7 +94,7 @@
                                         <th>Name</th>
                                         <th>Code</th>
                                         <th>Description</th>
-                                        <th>Detal</th>
+
 
                                     </tr>
                                     </thead>
@@ -95,9 +102,11 @@
                                     <tbody>
                                     <!--/*@thymesVar id="list" type="antlr"*/-->
                                     <th:block th:each="category : ${list}">
-                                        <tr>
+                                        <tr th:onclick="'clickDetail('+${category.id}+')'">
                                             <td style="width: 10px">
-                                                <input type="checkbox" th:id="checkbox+${category.id}" name="checkbox-delete">
+                                                <input type="checkbox" th:id="${category.id}"
+                                                       th:onclick="'clickCheck('+${category.id}+')'"
+                                                       name="checkbox-delete">
                                             </td>
                                             <td th:utext="${category.id}"></td>
                                             <!--/*@thymesVar id="name" type="antlr"*/-->
@@ -108,49 +117,45 @@
                                             <td th:utext="${category.description}"><span class="tag tag-success"></span>
                                             </td>
 
-                                            <td >
-                                                <button class="btn btn-primary ml-2"  th:onclick="'clickDetail('+${category.id}+')'">
-                                                    <i class="fas fa-caret-square-down " th:id="i1+${category.id}"></i>
-                                                    <i  style="display: none" class="fas fa-caret-square-up  " th:id="i2+${category.id}"></i>
-                                                </button>
-                                            </td>
+                                            <!--                                            <td >-->
+                                            <!--                                                <button class="btn btn-primary ml-2"  th:onclick="'clickDetail('+${category.id}+')'">-->
+                                            <!--                                                    <i class="fas fa-caret-square-down " th:id="i1+${category.id}"></i>-->
+                                            <!--                                                    <i  style="display: none" class="fas fa-caret-square-up  " th:id="i2+${category.id}"></i>-->
+                                            <!--                                                </button>-->
+                                            <!--                                            </td>-->
                                         </tr>
 
 
-                                         <tr th:id="${category.id}" style="display: none">
-                                             <td>
+                                        <!--                                         <tr th:id="${category.id}" style="display: none" >-->
+                                        <!--                                             <form th:action="@{/category/update}" method="post">-->
+                                        <!--                                                 <td>-->
+                                        <!--                                                       <button  class="btn btn-danger" >-->
 
-                                             </td>
-                                             <td th:utext="${category.id}"></td>
-                                             <!--/*@thymesVar id="name" type="antlr"*/-->
-                                             <td th:utext="${category.name}"></td>
-                                             <!--/*@thymesVar id="category" type="antlr"*/-->
-                                             <td th:utext="${category.code}"></td>
-                                             <!--/*@thymesVar id="description" type="antlr"*/-->
-                                             <td th:utext="${category.description}"><span class="tag tag-success"></span>
-                                             </td>
+                                        <!--                                                         <i class="fas fa-user-edit ml-2"></i>-->
+                                        <!--                                                       </button>-->
+                                        <!--                                                 </td>-->
+                                        <!--                                                 <td th:utext="${category.id}"  >-->
+                                        <!--                                                     <input type="hidden" th:value="${category.id}"  name="id">-->
+                                        <!--                                                 </td>-->
 
-                                             <td>
-                                                 <a th:href="@{/delete-category/{id}(id=${category.id})}"
-                                                    class="btn btn-danger">
-                                                     <i class="fas fa-user-edit ml-2"></i>
-                                                 </a>
-                                             </td>
-                                         </tr>
+                                        <!--                                                 <td >-->
+                                        <!--                                                     <input type="text" th:value="${category.name}" name="name">-->
+                                        <!--                                                 </td>-->
+
+                                        <!--                                                 <td >-->
+                                        <!--                                                     <input type="text" th:value="${category.code}" name="code">-->
+                                        <!--                                                 </td>-->
+
+                                        <!--                                                 <td >-->
+                                        <!--                                                     <input type="text" th:value="${category.description}" name="description">-->
+                                        <!--                                                 </td>-->
+
+
+                                        <!--                                             </form>-->
+
+                                        <!--                                         </tr>-->
                                         <script>
-                                            function clickDetail(s){
-                                                    console.log(s);
-                                              if(  document.getElementById(s).style.display == 'none'){
-                                                    document.getElementById(s).style.display = 'table-row';
-                                                  document.getElementById('i2'+s).style.display = 'table-row';
-                                                  document.getElementById('i1'+s).style.display = 'none';
-                                                }else {
-                                                  document.getElementById(s).style.display = 'none';
-                                                  document.getElementById('i1'+s).style.display = 'table-row';
-                                                  document.getElementById('i2'+s).style.display = 'none'
-                                              }
 
-                                            }
                                         </script>
                                     </th:block>
                                     </tbody>
@@ -162,12 +167,12 @@
                         <div style="display: flex;">
                             <ul class="pagination" style="margin: auto;">
                                 <li class="paginate_button page-item previous " id="example2_previous"><a
-                                        th:href="@{/views/category-dir/{id}(id=${before})}"
+                                        th:href="@{/category/{id}(id=${before})}"
                                         aria-controls="example2" data-dt-idx="0" tabindex="0"
                                         class="page-link">Trước</a></li>
 
                                 <li class="paginate_button page-item next" id="example2_next"><a
-                                        th:href="@{/views/category-dir/{id}(id=${after})}"
+                                        th:href="@{/category/{id}(id=${after})}"
                                         aria-controls="example2"
                                         data-dt-idx="7"
                                         tabindex="0"
@@ -203,7 +208,41 @@
 <!-- AdminLTE App -->
 <script th:src="@{/dist/js/adminlte.js}"></script>
 <script language="javascript">
+    var list = '';
 
+    $("input[name='checkbox-delete']").click(function (e) {
+        e.stopPropagation();
+
+    })
+    function clickCheck(s){
+
+        // list.push(clickCheck);
+        if(list==''){
+            list+=s;
+
+        } else {
+            list+=("+"+s);
+        }
+        console.log(list)
+    }
+    $("#btnDelete").click(function (ev) {
+        ev.preventDefault();
+
+
+
+        console.log(list);
+        let formSubmit = $("#formDelete");
+        formSubmit.append('<input name="list" type="text" value="'+list+'" />');
+
+        formSubmit.submit();
+
+
+
+    })
+    // $("#formDelete").submit(function(eventObj){
+    //     $("#btnDelete").attr("list",list).appendTo("#formDelete");
+    //     return true;
+    // });
     // document.getElementById("btn1").onclick = function () {
     //     document.getElementById("content").style.display = 'none';
     // };
@@ -211,7 +250,20 @@
     // document.getElementById("btn2").onclick = function () {
     //     document.getElementById("content").style.display = 'block';
     // };
+    function clickDetail(s) {
+        console.log(s);
+        // if(  document.getElementById(s).style.display == 'none'){
+        //       document.getElementById(s).style.display = 'table-row';
+        //     document.getElementById('i2'+s).style.display = 'table-row';
+        //     document.getElementById('i1'+s).style.display = 'none';
+        //   }else {
+        //     document.getElementById(s).style.display = 'none';
+        //     document.getElementById('i1'+s).style.display = 'table-row';
+        //     document.getElementById('i2'+s).style.display = 'none'
+        // }
+        window.location.href = "http://localhost:8080/trainning_01_war_exploded/category/update/" + s;
 
+    }
 </script>
 </body>
 
