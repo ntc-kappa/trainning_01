@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Categrory</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}"/>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav th:replace="layouts/header :: header">
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="layouts/menu :: menu">
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Nội dung</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/home" th:text="#{header.title}"></a></li>
+                            <li class="breadcrumb-item active"></li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" th:utext="${notify}" style="color: blue"></h3>
+                                <br>
+                                <div class="row">
+                                    <a class="btn btn-primary btn-sm" th:href="@{/category/add/}"
+                                       th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
+                                    <!--                                <a  class="btn btn-danger btn-sm" onclick="delete()"-->
+                                    <!--                                   th:title="#{btn.remove}"><i-->
+                                    <!--                                        class="fas fa-trash"></i></a>-->
+                                    <form id="formDelete" method="post" th:action="@{/category/delete}" >
+                                        <button type="submit" class="btn btn-danger btn-sm" id="btnDelete">
+                                            <i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                                <div class="card-tools">
+                                    <form action="/trainning_01_war_exploded/category/search" method="GET">
+                                        <div class="input-group input-group-sm">
+
+                                            <input type="text" name="name" class="form-control float-right"
+                                                   style="height: 40px !important;"
+                                                   th:placeholder="#{content.search}"
+                                                   autocomplete="off">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-default"><i
+                                                        class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>Tick</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Code</th>
+                                        <th>Description</th>
+
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <!--/*@thymesVar id="list" type="antlr"*/-->
+                                    <th:block th:each="category : ${list}">
+                                        <tr th:onclick="'clickDetail('+${category.id}+')'">
+                                            <td style="width: 10px">
+                                                <input type="checkbox" th:id="${category.id}"
+                                                       th:onclick="'clickCheck('+${category.id}+')'"
+                                                       name="checkbox-delete">
+                                            </td>
+                                            <td th:utext="${category.id}"></td>
+                                            <!--/*@thymesVar id="name" type="antlr"*/-->
+                                            <td th:utext="${category.name}"></td>
+                                            <!--/*@thymesVar id="category" type="antlr"*/-->
+                                            <td th:utext="${category.code}"></td>
+                                            <!--/*@thymesVar id="description" type="antlr"*/-->
+                                            <td th:utext="${category.description}"><span class="tag tag-success"></span>
+                                            </td>
+
+                                            <!--                                            <td >-->
+                                            <!--                                                <button class="btn btn-primary ml-2"  th:onclick="'clickDetail('+${category.id}+')'">-->
+                                            <!--                                                    <i class="fas fa-caret-square-down " th:id="i1+${category.id}"></i>-->
+                                            <!--                                                    <i  style="display: none" class="fas fa-caret-square-up  " th:id="i2+${category.id}"></i>-->
+                                            <!--                                                </button>-->
+                                            <!--                                            </td>-->
+                                        </tr>
+
+
+                                        <!--                                         <tr th:id="${category.id}" style="display: none" >-->
+                                        <!--                                             <form th:action="@{/category/update}" method="post">-->
+                                        <!--                                                 <td>-->
+                                        <!--                                                       <button  class="btn btn-danger" >-->
+
+                                        <!--                                                         <i class="fas fa-user-edit ml-2"></i>-->
+                                        <!--                                                       </button>-->
+                                        <!--                                                 </td>-->
+                                        <!--                                                 <td th:utext="${category.id}"  >-->
+                                        <!--                                                     <input type="hidden" th:value="${category.id}"  name="id">-->
+                                        <!--                                                 </td>-->
+
+                                        <!--                                                 <td >-->
+                                        <!--                                                     <input type="text" th:value="${category.name}" name="name">-->
+                                        <!--                                                 </td>-->
+
+                                        <!--                                                 <td >-->
+                                        <!--                                                     <input type="text" th:value="${category.code}" name="code">-->
+                                        <!--                                                 </td>-->
+
+                                        <!--                                                 <td >-->
+                                        <!--                                                     <input type="text" th:value="${category.description}" name="description">-->
+                                        <!--                                                 </td>-->
+
+
+                                        <!--                                             </form>-->
+
+                                        <!--                                         </tr>-->
+                                        <script>
+
+                                        </script>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div style="display: flex;">
+                            <ul class="pagination" style="margin: auto;">
+                                <li class="paginate_button page-item previous " id="example2_previous"><a
+                                        th:href="@{/category/{id}(id=${before})}"
+                                        aria-controls="example2" data-dt-idx="0" tabindex="0"
+                                        class="page-link">Trước</a></li>
+
+                                <li class="paginate_button page-item next" id="example2_next"><a
+                                        th:href="@{/category/{id}(id=${after})}"
+                                        aria-controls="example2"
+                                        data-dt-idx="7"
+                                        tabindex="0"
+                                        class="page-link">Sau</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row (main row) -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <
+</div>
+<!-- /.content-wrapper -->
+<footer th:replace="layouts/footer :: footer">
+</footer>
+
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<!-- jQuery -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.js}"></script>
+<script language="javascript">
+    var list = '';
+
+    $("input[name='checkbox-delete']").click(function (e) {
+        e.stopPropagation();
+
+    })
+    function clickCheck(s){
+
+        // list.push(clickCheck);
+        if(list==''){
+            list+=s;
+
+        } else {
+            list+=("+"+s);
+        }
+        console.log(list)
+    }
+    $("#btnDelete").click(function (ev) {
+        ev.preventDefault();
+
+
+
+        console.log(list);
+        let formSubmit = $("#formDelete");
+        formSubmit.append('<input name="list" type="text" value="'+list+'" />');
+
+        formSubmit.submit();
+
+
+
+    })
+    // $("#formDelete").submit(function(eventObj){
+    //     $("#btnDelete").attr("list",list).appendTo("#formDelete");
+    //     return true;
+    // });
+    // document.getElementById("btn1").onclick = function () {
+    //     document.getElementById("content").style.display = 'none';
+    // };
+    //
+    // document.getElementById("btn2").onclick = function () {
+    //     document.getElementById("content").style.display = 'block';
+    // };
+    function clickDetail(s) {
+        console.log(s);
+        // if(  document.getElementById(s).style.display == 'none'){
+        //       document.getElementById(s).style.display = 'table-row';
+        //     document.getElementById('i2'+s).style.display = 'table-row';
+        //     document.getElementById('i1'+s).style.display = 'none';
+        //   }else {
+        //     document.getElementById(s).style.display = 'none';
+        //     document.getElementById('i1'+s).style.display = 'table-row';
+        //     document.getElementById('i2'+s).style.display = 'none'
+        // }
+        window.location.href = "http://localhost:8080/trainning_01_war_exploded/category/update/" + s;
+
+    }
+</script>
+</body>
+
+</html>

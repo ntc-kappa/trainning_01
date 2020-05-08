@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Categrory</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}"/>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <!-- Navbar -->
+    <nav th:replace="layouts/header :: header">
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside th:replace="layouts/menu :: menu">
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Update Category</h1>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+
+        <section class="content">
+
+            <!-- Small boxes (Stat box) -->
+
+
+
+
+            <form th:action="@{/category/update/data}" th:object="${category}" method="post" style="margin-left: 300px">
+
+                <div class="form-group">
+
+                    <input type="hidden" class="form-control" th:value="*{id}" th:field="*{id}" placeholder="Enter name"  id="id" style="width: 400px"  >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Name </label>
+                    <input type="text" class="form-control" th:value="*{name}" th:field="*{name}" placeholder="Enter name"  id="email" style="width: 400px"  >
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Code</label>
+                    <input type="text" class="form-control" th:value="*{code}" th:field="*{code}"  placeholder="Enter code" id="pwd" style="width: 400px">
+                </div>
+                <div class="form-group">
+                    <label for="des">Description</label>
+                    <input type="text" style="width: 400px ;height: 200px"  th:value="*{description}" class="form-control" th:field="*{description}" placeholder="Enter Description" id="des">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+
+
+
+        </section>
+        <!-- /.content -->
+    </div>
+
+</div>
+
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.js}"></script>
+
+</body>
+
+</html>

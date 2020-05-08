@@ -25,7 +25,7 @@ public class JPAConfig {
     @Autowired
     private Environment environment;
 
-    @Bean()
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
