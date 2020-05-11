@@ -13,4 +13,5 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity,Integer
    void deleteCategoryEntitiesById(Integer id);
    void deleteById(Integer id);
    List<CategoryEntity> findByNameContains(String name);
+   CategoryEntity findOneByCode(String name);
 }

@@ -56,7 +56,7 @@ public class UserEntity {
     @Column(name = "appro_by")
     private String approBy;
 
-    @ManyToMany(mappedBy = "userEntities")
+    @ManyToMany(mappedBy = "userEntities",fetch = FetchType.EAGER)
     private Set<RoleEntity> roleEntities;
 
     @ManyToMany(mappedBy = "userEntities")

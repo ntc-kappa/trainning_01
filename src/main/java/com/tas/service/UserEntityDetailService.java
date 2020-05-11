@@ -1,7 +1,9 @@
 package com.tas.service;
 
+import com.tas.common.Loggable;
 import com.tas.entity.RoleEntity;
 import com.tas.entity.UserEntity;
+import com.tas.repository.RoleRepository;
 import com.tas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,10 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 @Service
-public class UserEntityDetailService implements UserDetailsService {
+public class UserEntityDetailService implements UserDetailsService , Loggable {
     @Autowired(required = true)
     UserRepository userRepository;
-
+    @Autowired
+    RoleRepository roleRepository;
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
@@ -36,20 +39,13 @@ public class UserEntityDetailService implements UserDetailsService {
 
             throw new UsernameNotFoundException("User " + s + " was not found in the database");
         }
-//        System.out.println(s+"  "+entity.getUsername());
-        Set<RoleEntity> listRoles = entity.getRoleEntities();
-        List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
-//        System.out.println(entity.getPassword());
 
-//        if (listRoles != null) {
-//            for (RoleEntity roleEntity : listRoles
-//            ) {
-//
-//
-//                GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + roleEntity.getName());
-//                grantList.add(authority);
-//
-//            }
+        Set<RoleEntity> listRoles = entity.getRoleEntities();
+        for (RoleEntity roleEntity: listRoles
+             ) {
+            getLogger().info(roleEntity.getName());
+        }
+        List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
             grantList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
         UserDetails userDetails= (UserDetails) new User(entity.getUsername(),entity.getPassword(),grantList);
