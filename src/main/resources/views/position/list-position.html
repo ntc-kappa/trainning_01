@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Categrory</title>
+    <title>Position</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -33,7 +33,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Nội dung</h1>
+                        <h1 class="m-0 text-dark" th:utext="#{text.title}"></h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -58,18 +58,16 @@
                                 <h3 class="card-title" th:utext="${notify}" style="color: blue"></h3>
                                 <br>
                                 <div class="row">
-                                    <a class="btn btn-primary btn-sm" th:href="@{/category/add/}"
+                                    <a class="btn btn-primary btn-sm" th:href="@{/position/add/}"
                                        th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
-                                    <!--                                <a  class="btn btn-danger btn-sm" onclick="delete()"-->
-                                    <!--                                   th:title="#{btn.remove}"><i-->
-                                    <!--                                        class="fas fa-trash"></i></a>-->
-                                    <form id="formDelete" method="post" th:action="@{/category/delete}" >
+
+                                    <form id="formDelete" method="post" th:action="@{/positon/delete}" >
                                         <button type="submit" class="btn btn-danger btn-sm" id="btnDelete">
                                             <i class="fas fa-trash"></i></button>
                                     </form>
                                 </div>
                                 <div class="card-tools">
-                                    <form action="/trainning_01_war_exploded/category/search" method="GET">
+                                    <form action="/trainning_01_war_exploded/position/search" method="GET">
                                         <div class="input-group input-group-sm">
 
                                             <input type="text" name="name" class="form-control float-right"
@@ -91,9 +89,9 @@
                                     <tr>
                                         <th>Tick</th>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Code</th>
-                                        <th>Description</th>
+                                        <th th:utext="#{list.text.name}"></th>
+                                        <th th:utext="#{list.text.des}"></th>
+
 
 
                                     </tr>
@@ -111,52 +109,11 @@
                                             <td th:utext="${category.id}"></td>
                                             <!--/*@thymesVar id="name" type="antlr"*/-->
                                             <td th:utext="${category.name}"></td>
-                                            <!--/*@thymesVar id="category" type="antlr"*/-->
-                                            <td th:utext="${category.code}"></td>
-                                            <!--/*@thymesVar id="description" type="antlr"*/-->
                                             <td th:utext="${category.description}"><span class="tag tag-success"></span>
                                             </td>
 
-                                            <!--                                            <td >-->
-                                            <!--                                                <button class="btn btn-primary ml-2"  th:onclick="'clickDetail('+${category.id}+')'">-->
-                                            <!--                                                    <i class="fas fa-caret-square-down " th:id="i1+${category.id}"></i>-->
-                                            <!--                                                    <i  style="display: none" class="fas fa-caret-square-up  " th:id="i2+${category.id}"></i>-->
-                                            <!--                                                </button>-->
-                                            <!--                                            </td>-->
                                         </tr>
 
-
-                                        <!--                                         <tr th:id="${category.id}" style="display: none" >-->
-                                        <!--                                             <form th:action="@{/category/update}" method="post">-->
-                                        <!--                                                 <td>-->
-                                        <!--                                                       <button  class="btn btn-danger" >-->
-
-                                        <!--                                                         <i class="fas fa-user-edit ml-2"></i>-->
-                                        <!--                                                       </button>-->
-                                        <!--                                                 </td>-->
-                                        <!--                                                 <td th:utext="${category.id}"  >-->
-                                        <!--                                                     <input type="hidden" th:value="${category.id}"  name="id">-->
-                                        <!--                                                 </td>-->
-
-                                        <!--                                                 <td >-->
-                                        <!--                                                     <input type="text" th:value="${category.name}" name="name">-->
-                                        <!--                                                 </td>-->
-
-                                        <!--                                                 <td >-->
-                                        <!--                                                     <input type="text" th:value="${category.code}" name="code">-->
-                                        <!--                                                 </td>-->
-
-                                        <!--                                                 <td >-->
-                                        <!--                                                     <input type="text" th:value="${category.description}" name="description">-->
-                                        <!--                                                 </td>-->
-
-
-                                        <!--                                             </form>-->
-
-                                        <!--                                         </tr>-->
-                                        <script>
-
-                                        </script>
                                     </th:block>
                                     </tbody>
                                 </table>
@@ -200,10 +157,7 @@
 </aside>
 <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 
-<!-- jQuery -->
-<!-- jQuery -->
 <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/dist/js/adminlte.js}"></script>
@@ -215,8 +169,6 @@
 
     })
     function clickCheck(s){
-
-        // list.push(clickCheck);
         if(list==''){
             list+=s;
 
@@ -228,40 +180,23 @@
     $("#btnDelete").click(function (ev) {
         ev.preventDefault();
 
+        var r = confirm("Bạn có chắc chắc muốn xóa ?");
+        if (r === true) {
 
 
-        console.log(list);
-        let formSubmit = $("#formDelete");
-        formSubmit.append('<input name="list" type="hidden" value="'+list+'" />');
+            console.log(list);
+            let formSubmit = $("#formDelete");
+            formSubmit.append('<input name="list" type="hidden" value="' + list + '" />');
 
-        formSubmit.submit();
-
+            formSubmit.submit();
+        }
 
 
     })
-    // $("#formDelete").submit(function(eventObj){
-    //     $("#btnDelete").attr("list",list).appendTo("#formDelete");
-    //     return true;
-    // });
-    // document.getElementById("btn1").onclick = function () {
-    //     document.getElementById("content").style.display = 'none';
-    // };
-    //
-    // document.getElementById("btn2").onclick = function () {
-    //     document.getElementById("content").style.display = 'block';
-    // };
+
     function clickDetail(s) {
         console.log(s);
-        // if(  document.getElementById(s).style.display == 'none'){
-        //       document.getElementById(s).style.display = 'table-row';
-        //     document.getElementById('i2'+s).style.display = 'table-row';
-        //     document.getElementById('i1'+s).style.display = 'none';
-        //   }else {
-        //     document.getElementById(s).style.display = 'none';
-        //     document.getElementById('i1'+s).style.display = 'table-row';
-        //     document.getElementById('i2'+s).style.display = 'none'
-        // }
-        window.location.href = "http://localhost:8080/trainning_01_war_exploded/category/update/" + s;
+        window.location.href = "http://localhost:8080/trainning_01_war_exploded/position/update/" + s;
 
     }
 </script>

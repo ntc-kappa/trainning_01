@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a th:href="@{/position/0}" class="nav-link">
                             <i class="nav-icon far fa-circle text-info"></i>
                             <p th:text="#{menu.child.three}"></p>
                         </a>
@@ -49,6 +49,12 @@
                         <a th:href="@{/manager-tranning/projects}" class="nav-link">
                             <i class="nav-icon far fa-circle text-info"></i>
                             <p th:text="#{menu.child.five}"></p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/category/0}" class="nav-link">
+                            <i class="nav-icon far fa-circle text-danger"></i>
+                            <p class="text" th:text="#{menu.child.six}"></p>
                         </a>
                     </li>
                 </ul>

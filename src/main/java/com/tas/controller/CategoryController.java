@@ -20,8 +20,7 @@ import java.util.*;
 public class CategoryController {
     @Autowired
     private CategoryRepository repository;
-//    @@Autowired
-//    private UserEntityDetailService userEntityDetailService;
+
     @RequestMapping(value = {"/category/{numberPage}"}, method = RequestMethod.GET)
     public String homeCategory(@PathVariable("numberPage") int numberPage, HttpServletRequest request, Model model) {
         String notify = request.getParameter("notify");
