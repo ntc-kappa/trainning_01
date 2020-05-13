@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
-
+    RoleEntity findByName(String name);
 
 //    Set<RoleEntity> findByUserEntities();
 }

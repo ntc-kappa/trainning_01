@@ -48,7 +48,7 @@ public class UserEntityDetailService implements UserDetailsService , Loggable {
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
             grantList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
-        UserDetails userDetails= (UserDetails) new User(entity.getUsername(),entity.getPassword(),grantList);
+        UserDetails userDetails= (UserDetails) new User(entity.getUsername(),entity.getPassword(),entity.isActive(),true,true,true,grantList);
 
         return userDetails;
     }
