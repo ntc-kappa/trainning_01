@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
 <aside class="main-sidebar sidebar-dark-primary elevation-4" th:fragment="menu">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
+    <a href="#" class="brand-link" style="position: relative">
         <img th:src="@{/dist/img/AdminLTELogo.png}" alt="Avatar" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light" th:text="#{user.fullname}"></span>
+        <span class="brand-text font-weight-light" th:text="${#authentication.getPrincipal().getFullName()}"></span>
     </a>
 
     <!-- Sidebar -->
@@ -61,7 +62,7 @@
         const url = window.location.href;
         var menus = document.getElementById("list-menu").getElementsByTagName("a");
         for (let i = 0; i < menus.length; i++) {
-            if(url.includes(menus[i].href)){
+            if (url.includes(menus[i].href)) {
                 menus[i].className += " active";
             }
         }

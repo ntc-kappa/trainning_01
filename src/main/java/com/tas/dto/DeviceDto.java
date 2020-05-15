@@ -1,23 +1,30 @@
 package com.tas.dto;
 
+import com.tas.validator.annotation.CodeDeviceValid;
+import com.tas.validator.annotation.ColumnExcel;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class DeviceDto {
 
     private Integer id;
 
+    @ColumnExcel(title = "Mã thiết bị", col = 0, type = CustomCellType._STRING)
     @NotBlank(message = "{manager.device.notify.code.required}")
+    @CodeDeviceValid
     private String code;
 
+    @ColumnExcel(title = "Tên thiết bị", col = 1, type = CustomCellType._STRING)
     @NotBlank(message = "{manager.device.notify.name.required}")
     private String name;
 
+    @ColumnExcel(title = "Giá thiết bị", col = 2, type = CustomCellType._DOUBLE)
     private double price;
 
     private String description;
 
     private String nameCategory;
 
+    @ColumnExcel(title = "Mã loại thiết bị", col = 3, type = CustomCellType._STRING)
     @NotBlank(message = "{manager.device.notify.codecategory.required}")
     private String codeCategory;
 

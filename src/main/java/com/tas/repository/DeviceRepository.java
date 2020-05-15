@@ -23,4 +23,6 @@ public interface DeviceRepository extends JpaRepository<DeviceEntity, Integer> {
     @Transactional
     @Query(value = "DELETE d FROM device d WHERE d.id IN :ids", nativeQuery = true)
     void deleteSomeDevice(@Param("ids") Integer[] ids);
+
+    DeviceEntity findOneByCode(String code);
 }

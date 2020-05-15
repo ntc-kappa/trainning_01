@@ -1,20 +1,18 @@
 package com.tas.config;
 
-import com.tas.entity.UserEntity;
-import com.tas.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tas.utils.SecurityUtil;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-public class AuditorAwareImpl implements AuditorAware<UserEntity> {
-
-    @Autowired
-    UserRepository userRepository;
+public class AuditorAwareImpl implements AuditorAware<String> {
 
     @Override
-    public UserEntity getCurrentAuditor() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findOneByUsername(username);
+    public String getCurrentAuditor() {
+        try {
+            return SecurityUtil.getCurrentUser().getUsername();
+        } catch (NullPointerException ex) {
+            return "TEST";
+        }
     }
+
 
 }

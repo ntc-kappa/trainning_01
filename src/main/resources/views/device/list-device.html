@@ -12,6 +12,43 @@
     <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}"/>
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            display: none;
+        }
+
+        .modal-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-box {
+            position: relative;
+            margin: auto;
+            background-color: white;
+            border-radius: 5px;
+            z-index: 1;
+            padding: 10px;
+        }
+
+        .modal-box-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-close:hover {
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -59,8 +96,12 @@
                                 <a id="btnDelete" class="btn btn-danger btn-sm" href="#" th:title="#{btn.remove}"><i
                                         class="fas fa-trash"></i></a>
 
-                                <a class="btn btn-success btn-sm" href="#" th:title="#{btn.import}"><i
+                                <a id="btnImport" class="btn btn-success btn-sm" href="#" th:title="#{btn.import}"><i
                                         class="fas fa-file-upload"></i></a>
+
+                                <a class="btn btn-info btn-sm" th:href="@{/manager-tranning/exportDeviceCsv}"
+                                   title="Download"><i
+                                        class="fas fa-file-download"></i></a>
                                 <div class="card-tools">
                                     <form action="/manager-tranning/projects/search" method="GET">
                                         <div class="input-group input-group-sm">
@@ -142,6 +183,25 @@
         <!-- Control sidebar content goes here -->
     </aside>
     <!-- /.control-sidebar -->
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-overlay">
+    </div>
+    <div class="modal-box">
+        <div class="modal-box-header">
+            <h4>Tải file lên</h4>
+            <a id="btn-close" class="btn-close"><i class="fas fa-times"></i></a>
+        </div>
+        <div class="modal-box-content">
+            <form th:action="@{/manager-tranning/upload-device}" method="POST" enctype="multipart/form-data">
+                <div>
+                    <input type="file" id="myfile" name="file">
+                </div>
+                <input style="float: right" class="btn btn-success btn-sm" type="submit" value="Đồng ý">
+            </form>
+        </div>
+    </div>
 </div>
 <!-- ./wrapper -->
 
@@ -270,6 +330,18 @@
         "<li class='paginate_button page-item next'>" +
         "<a href='/manager-tranning/devices?page=" + (page + 1) + "' aria-controls='example2' data-dt-idx='7' tabindex='0' class='page-link'>></a></li>"
     );
+</script>
+
+<script type="text/javascript">
+    $("#btnImport").click(function (ev) {
+        ev.preventDefault();
+        document.getElementById("modal").style.display = "flex";
+    })
+
+    document.getElementById("btn-close").addEventListener("click", function (ev) {
+        ev.preventDefault();
+        document.getElementById("modal").style.display = "none";
+    })
 </script>
 </body>
 

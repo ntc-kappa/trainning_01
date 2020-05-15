@@ -16,4 +16,6 @@ public interface DeviceService {
     long getTotalPage();
 
     long deleteMany(Integer[] ids);
+
+    long saveS(List<DeviceDto> deviceDtos);
 }

@@ -1,11 +1,17 @@
 package com.tas.entity;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.time.Instant;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "device")
-public class DeviceEntity {
+public class DeviceEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,15 +31,17 @@ public class DeviceEntity {
     private String description;
 
     @Column(name = "create_time")
-    private Timestamp createTime;
+    private Instant createTime;
 
     @Column(name = "modify_time")
-    private Timestamp modifyTime;
+    private Instant modifyTime;
 
     @Column(name = "create_by")
+    @CreatedBy
     private String createBy;
 
     @Column(name = "modify_by")
+    @LastModifiedBy
     private String modifyBy;
 
     @ManyToOne
@@ -84,19 +92,19 @@ public class DeviceEntity {
         this.description = description;
     }
 
-    public Timestamp getCreateTime() {
+    public Instant getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Instant createTime) {
         this.createTime = createTime;
     }
 
-    public Timestamp getModifyTime() {
+    public Instant getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Timestamp modifyTime) {
+    public void setModifyTime(Instant modifyTime) {
         this.modifyTime = modifyTime;
     }
 

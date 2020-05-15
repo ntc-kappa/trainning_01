@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class UserController {
+public class AuthenController {
 
-    @RequestMapping(value = "/change-password", method = RequestMethod.GET)
-    public String changePasswordPage() {
-        return "user/change-password";
+    @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
+    public String loginPage() {
+        return "authen/login";
     }
 
 }

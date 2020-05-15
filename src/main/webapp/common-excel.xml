@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<headers>
+    <header name="SINHVIEN">
+        <field type="STRING">Mã sinh viên</field>
+        <field type="STRING">Họ và tên</field>
+        <field type="DATE">Ngày sinh</field>
+        <field type="DOUBLE">Điểm trung bình</field>
+    </header>
+
+    <header name="DEVICE">
+        <field type="STRING">Mã thiết bị</field>
+        <field type="STRING">Tên thiết bị</field>
+        <field type="DOUBLE">Giá thiết bị</field>
+        <field type="STRING">Loại thiết bị</field>
+    </header>
+</headers>

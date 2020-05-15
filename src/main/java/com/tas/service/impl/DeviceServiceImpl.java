@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,4 +68,18 @@ public class DeviceServiceImpl implements DeviceService {
             return 0;
         }
     }
+
+    @Override
+    public long saveS(List<DeviceDto> deviceDtos) {
+        List<DeviceEntity> entities = new ArrayList<>();
+        for (DeviceDto deviceDto : deviceDtos) {
+            DeviceEntity entity = deviceConverter.toEntity(deviceDto);
+            CategoryEntity categoryEntity = categoryRepository.findOneByCode(deviceDto.getCodeCategory());
+            entity.setCategoryEntity(categoryEntity);
+            entities.add(entity);
+        }
+        List<DeviceEntity> list = deviceRepository.save(entities);
+        return list.size();
+    }
+
 }
