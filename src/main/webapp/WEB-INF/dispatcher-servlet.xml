@@ -24,9 +24,7 @@
         <property name="characterEncoding" value="UTF-8"/>
     </bean>
 
-    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
-        <property name="templateResolver" ref="templateResolver"/>
-    </bean>
+
 
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="characterEncoding" value="UTF-8"/>
@@ -83,4 +81,17 @@
     <bean id="model-mapper" class="org.modelmapper.ModelMapper">
     </bean>
 
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- maxUploadSize=10MB -->
+        <property name="maxUploadSize" value="10240000"/>
+    </bean>
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver"/>
+        <property name="additionalDialects">
+            <set>
+                <bean class="org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect"/>
+            </set>
+        </property>
+    </bean>
 </beans>

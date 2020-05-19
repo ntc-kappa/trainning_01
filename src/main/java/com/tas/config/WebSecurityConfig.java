@@ -34,9 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.authorizeRequests().antMatchers( "/login", "/logout","/resisger","/resisger/data").permitAll().anyRequest();
-        http.authorizeRequests().anyRequest().access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/manager-tranning/projects/**","/home","/dist/**","/plugins/**").access("hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MANAGER')").antMatchers("/category/**","/manager-tranning/project/**","/manager-tranning/device/**")
+                .access("hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')")
+                .antMatchers("/**").access("hasAnyRole('ROLE_ADMIN')");
 
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+
+
+        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/home");
         http.authorizeRequests().and().formLogin()
                 .loginProcessingUrl("/j_spring_security_check")
                 .loginPage("/login")

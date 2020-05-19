@@ -61,11 +61,23 @@
                                     <a class="btn btn-primary btn-sm" th:href="@{/position/add/}"
                                        th:title="#{btn.add}"><i class="fas fa-plus-square"></i></a>
 
-                                    <form id="formDelete" method="post" th:action="@{/positon/delete}" >
+                                    <form id="formDelete" method="post" th:action="@{/positon/delete}" style="margin-left: 10px" >
                                         <button type="submit" class="btn btn-danger btn-sm" id="btnDelete">
                                             <i class="fas fa-trash"></i></button>
+                                    </form >
+
+                                    <a class="btn btn-info btn-sm" th:href="@{/position/exportExel}" title="Download" style="margin-left: 10px"><i
+                                            class="fas fa-file-download"></i></a>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <form enctype="multipart/form-data" method="post" th:action="@{/position/importExcel}" >
+                                        <input id="file" type="file" name="file" class="btn btn-success btn-sm" accept=".xls,.xlsx">
+                                        <button class="btn btn-success btn-sm"  th:title="#{btn.import}" style="margin-left: 10px" id="load"><i
+                                                class="fas fa-file-upload"></i></button>
                                     </form>
                                 </div>
+
+
                                 <div class="card-tools">
                                     <form action="/trainning_01_war_exploded/position/search" method="GET">
                                         <div class="input-group input-group-sm">
@@ -199,6 +211,10 @@
         window.location.href = "http://localhost:8080/trainning_01_war_exploded/position/update/" + s;
 
     }
+    // $('#load').click(function (env) {
+    //     console.log("load click")
+    //     $('#file').click;
+    // })
 </script>
 </body>
 

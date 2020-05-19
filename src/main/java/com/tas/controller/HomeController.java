@@ -9,6 +9,7 @@ import com.tas.repository.RoleRepository;
 import com.tas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,7 @@ public class HomeController implements Loggable {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @RequestMapping(value = { "/","/home"}, method = RequestMethod.GET)
     public String homePage(Principal principal,Model model) {
+
         getLogger().info("Username "+ principal.getName()+" logined");
         model.addAttribute("userName", PageConfig.HELLO +principal.getName()+ " !");
         return "home";

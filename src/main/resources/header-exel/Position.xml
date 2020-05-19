@@ -1,0 +1,6 @@
+<?xml version = "1.0"?>
+<position>
+    <head type="Number" >STT</head>
+    <head type="String" name="name"  >Name</head>
+    <head type="String" name="description" >Description</head>
+</position>

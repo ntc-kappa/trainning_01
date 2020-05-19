@@ -1,23 +1,37 @@
 package com.tas.controller;
 
+import com.tas.common.FileParser;
+import com.tas.common.Loggable;
 import com.tas.common.PageConfig;
+import com.tas.common.Path;
 import com.tas.entity.CategoryEntity;
+import com.tas.entity.PositionEntity;
+import com.tas.excel.impl.IOExcelImpl;
 import com.tas.repository.CategoryRepository;
+import com.tas.service.CategoryService;
 import com.tas.service.UserEntityDetailService;
+import com.tas.service.impl.CategoryServiceImpl;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
-public class CategoryController {
+public class CategoryController implements Loggable {
     @Autowired
     private CategoryRepository repository;
 
@@ -131,5 +145,37 @@ public class CategoryController {
 
         return "category-dir/category";
     }
+    @Autowired
+    CategoryServiceImpl categoryService;
+    @RequestMapping(value = "/category/exportExel")
+    public void exportExcel(HttpServletResponse response) {
+        categoryService.setExcel(response);
+    }
+    @RequestMapping(value = "/category/importExcel",method = RequestMethod.POST)
+    public RedirectView importExcel(@RequestParam("file") MultipartFile files){
+        if(files== null){
+            getLogger().warn("file not found");
+        }
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(FileParser.convert(files));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
 
+        XSSFWorkbook workbook = null;
+        try {
+            workbook = new XSSFWorkbook(fileInputStream);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        try {
+            IOExcelImpl.getInstance().importExcel(workbook, repository, CategoryEntity.class, ResourceUtils.getFile(Path.CATEGORY_XML));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        return new RedirectView("/trainning_01_war_exploded/category/0");
+    }
 }

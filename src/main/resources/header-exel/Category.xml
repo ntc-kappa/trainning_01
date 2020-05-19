@@ -1,0 +1,8 @@
+<?xml version = "1.0"?>
+<category>
+    <head type="Number" >STT</head>
+    <head type="String" name="name"  >Name</head>
+    <head type="String" name="code">Code</head>
+    <head type="String" name="description" >Description</head>
+
+</category>
