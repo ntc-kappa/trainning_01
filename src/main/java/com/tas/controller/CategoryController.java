@@ -4,6 +4,7 @@ import com.tas.common.FileParser;
 import com.tas.common.Loggable;
 import com.tas.common.PageConfig;
 import com.tas.common.Path;
+import com.tas.dto.CategoryDto;
 import com.tas.entity.CategoryEntity;
 import com.tas.entity.PositionEntity;
 import com.tas.excel.impl.IOExcelImpl;
@@ -19,12 +20,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -66,18 +69,21 @@ public class CategoryController implements Loggable {
 
         return new RedirectView("/trainning_01_war_exploded/category/0");
     }
-//    @RequestMapping(value = {"update-category/{id}"})
-//    public String UpadateCategory(){
-//        return "update-category";
-//    }
+
     @RequestMapping("/category/add")
     public String addCategory(Model model){
-        model.addAttribute("category",new CategoryEntity());
+        model.addAttribute("category",new CategoryDto());
         return "category-dir/add-category";
     }
+    @Autowired
+    CategoryService categoryService;
     @PostMapping("/category/add/data")
-    public RedirectView addCategoryData( @ModelAttribute("category")CategoryEntity entity, Model model){
-        repository.save(entity);
+    public RedirectView addCategoryData(@ModelAttribute("category") @Valid CategoryDto entity, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            getLogger().warn("BINDING RESULT ERROR");
+            return new RedirectView("/trainning_01_war_exploded/category/add");
+        }
+        repository.save(categoryService.dtoToEntity(entity));
 
         String notify = "thêm category thành công";
         model.addAttribute("notify", notify);
@@ -146,10 +152,10 @@ public class CategoryController implements Loggable {
         return "category-dir/category";
     }
     @Autowired
-    CategoryServiceImpl categoryService;
+    CategoryServiceImpl category;
     @RequestMapping(value = "/category/exportExel")
     public void exportExcel(HttpServletResponse response) {
-        categoryService.setExcel(response);
+        category.setExcel(response);
     }
     @RequestMapping(value = "/category/importExcel",method = RequestMethod.POST)
     public RedirectView importExcel(@RequestParam("file") MultipartFile files){

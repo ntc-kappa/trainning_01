@@ -34,17 +34,21 @@ public abstract class AbtractIOExcel implements  Loggable {
         return style;
     }
 
-    protected  List<Header> getHeadderFromXML(File file) throws ParserConfigurationException, SAXException, IOException {
+    protected static List<Header>  getHeadderFromXML(File file) throws ParserConfigurationException, SAXException, IOException {
         List<Header> headers = new ArrayList<>();
         DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = builderFactory.newDocumentBuilder();
         Document document = documentBuilder.parse(file);
+
+        Element element1=document.getDocumentElement();
+//        Header.rowStart=Integer.valueOf(element1.getAttribute("rowStart"));
         NodeList nodeList = document.getDocumentElement().getElementsByTagName("head");
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
             Header header=new Header();
             Element element=(Element)node;
             header.setName(element.getAttribute("name"));
+            header.setId(Integer.valueOf(element.getAttribute("positionInline")));
             header.setType(CellTypeWrapper.getCellTypeFromName(element.getAttribute("type")));
             header.setValue(element.getTextContent().trim());
             headers.add(header);
@@ -54,17 +58,20 @@ public abstract class AbtractIOExcel implements  Loggable {
     }
 
     public static void main(String[] args)  throws  NoSuchFieldException,IllegalAccessException{
-//        File file = new File(Path.POSITION_XML);
-//        try {
-//            List<Header> list = getHeadderFromXML(file);
-//            for (Header s : list
-//            ) {
-//                System.out.println(s.getValue());
+        File file = new File("src/main/resources/header-exel/Position.xml");
+        try {
+            List<Header> list = getHeadderFromXML(file);
+
+            for (Header s : list
+            ) {
+                System.out.println(s.getValue());
 //                System.out.println(s.getType().getCode());
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+                System.out.println(s.getId());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        Class<PositionEntity> entityClassL=PositionEntity.class;
 //        PositionEntity entity=new PositionEntity();
 //        entity.setName("Hello");

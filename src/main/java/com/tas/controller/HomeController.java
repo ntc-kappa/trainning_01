@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.ws.spi.http.HttpContext;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -85,6 +86,7 @@ public class HomeController implements Loggable {
         }
         model.addAttribute("message", "sigin");
         return new RedirectView("/trainning_01_war_exploded/login");
+
     }
     @RequestMapping("/403")
     public String accessDenied() {

@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class PositionSevice implements Loggable {
@@ -25,7 +27,7 @@ public class PositionSevice implements Loggable {
     public void getEcxel(HttpServletResponse response){
      try {
          response.setContentType("application/octet-stream:UTF-8");
-         response.setHeader("Content-Disposition", "attachment; filename= Position.xlsx");
+         response.setHeader("Content-Disposition", "attachment; filename= Position_"+new SimpleDateFormat("dd-MM-yyyy").format(new Date())+".xlsx");
          response.setHeader("charset", "UTF-8");
          response.setStatus(200);
          ClassLoader classLoader=ClassLoader.getSystemClassLoader();

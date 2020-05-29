@@ -11,7 +11,7 @@
     http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <context:component-scan base-package="com.tas"/>
-
+    <mvc:annotation-driven />
     <bean id="model-mapper" class="org.modelmapper.ModelMapper">
     </bean>
 

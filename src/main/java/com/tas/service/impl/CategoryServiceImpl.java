@@ -34,6 +34,15 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryEntity> entities = categoryRepository.findAll();
         return categoryConverter.toListDto(entities);
     }
+
+    public CategoryEntity dtoToEntity(CategoryDto categoryDto){
+        CategoryEntity entity =new CategoryEntity();
+        entity.setId(categoryDto.getId());
+        entity.setCode(categoryDto.getCode());
+        entity.setName(categoryDto.getName());
+        entity.setDescription(categoryDto.getDescription());
+        return entity;
+    }
     @Autowired
     private  CategoryRepository repository;
     public void setExcel(HttpServletResponse response){

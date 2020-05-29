@@ -1,10 +1,18 @@
 package com.tas.dto;
 
+import com.tas.entity.CategoryEntity;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotNull;
+
 public class CategoryDto {
 
     private Integer id;
+    @NotBlank(message = "{manager.category.notify.name.required}")
     private String name;
+    @NotBlank(message = "{manager.category.notify.code.required}")
     private String code;
+
     private String description;
 
     public Integer getId() {
@@ -38,4 +46,5 @@ public class CategoryDto {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }

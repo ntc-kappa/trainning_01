@@ -1,6 +1,6 @@
 <?xml version = "1.0"?>
 <position>
-    <head type="Number" >STT</head>
-    <head type="String" name="name"  >Name</head>
-    <head type="String" name="description" >Description</head>
+    <head type="Number" positionInline="0">STT</head>
+    <head type="String" name="name" positionInline="1"  >Name</head>
+    <head type="String" name="description" positionInline="2" >Description</head>
 </position>

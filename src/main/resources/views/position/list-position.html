@@ -72,7 +72,7 @@
                                 <div class="row" style="margin-top: 10px">
                                     <form enctype="multipart/form-data" method="post" th:action="@{/position/importExcel}" >
                                         <input id="file" type="file" name="file" class="btn btn-success btn-sm" accept=".xls,.xlsx">
-                                        <button class="btn btn-success btn-sm"  th:title="#{btn.import}" style="margin-left: 10px" id="load"><i
+                                        <button disabled class="btn btn-success btn-sm"  th:title="#{btn.import}" style="margin-left: 10px" id="load"><i
                                                 class="fas fa-file-upload"></i></button>
                                     </form>
                                 </div>
@@ -136,12 +136,11 @@
                         <div style="display: flex;">
                             <ul class="pagination" style="margin: auto;">
                                 <li class="paginate_button page-item previous " id="example2_previous"><a
-                                        th:href="@{/category/{id}(id=${before})}"
+                                        th:href="@{/position/{id}(id=${before})}"
                                         aria-controls="example2" data-dt-idx="0" tabindex="0"
                                         class="page-link">Trước</a></li>
 
                                 <li class="paginate_button page-item next" id="example2_next"><a
-                                        th:href="@{/category/{id}(id=${after})}"
                                         aria-controls="example2"
                                         data-dt-idx="7"
                                         tabindex="0"
@@ -211,10 +210,12 @@
         window.location.href = "http://localhost:8080/trainning_01_war_exploded/position/update/" + s;
 
     }
-    // $('#load').click(function (env) {
-    //     console.log("load click")
-    //     $('#file').click;
-    // })
+
+
+        // $('#file').click(function () {
+        //     $('#load').disabled=false;
+        // });
+
 </script>
 </body>
 

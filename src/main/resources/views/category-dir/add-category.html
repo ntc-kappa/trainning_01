@@ -55,14 +55,17 @@
                                     <div class="form-group">
                                         <label for="email">Name </label>
                                         <input type="text" class="form-control"  th:field="*{name}" placeholder="Enter name"  id="email" style="width: 400px"  >
+                                        <span style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="pwd">Code</label>
                                         <input type="text" class="form-control" th:field="*{code}"  placeholder="Enter code" id="pwd" style="width: 400px">
+                                        <span style="color: red" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="des">Description</label>
                                         <input type="text"  class="form-control" th:field="*{description}" placeholder="Enter Description" id="des">
+                                        <span style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{code}"></span>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Submit</button>

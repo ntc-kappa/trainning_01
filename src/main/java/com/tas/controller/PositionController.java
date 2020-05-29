@@ -132,6 +132,7 @@ public class PositionController implements Loggable {
     public RedirectView importExcel(@RequestParam("file")MultipartFile files){
         if(files== null){
            getLogger().warn("file not found");
+           return new RedirectView("/trainning_01_war_exploded/position/0");
         }
         FileInputStream fileInputStream = null;
         try {

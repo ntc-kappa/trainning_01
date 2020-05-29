@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.authorizeRequests().antMatchers( "/login", "/logout","/resisger","/resisger/data").permitAll().anyRequest();
-        http.authorizeRequests().antMatchers("/manager-tranning/projects/**","/home","/dist/**","/plugins/**").access("hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MANAGER')").antMatchers("/category/**","/manager-tranning/project/**","/manager-tranning/device/**")
+        http.authorizeRequests().antMatchers("/manager-tranning/projects/**","/home","/dist/**","/plugins/**","/manager-tranning/devices/**").access("hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MANAGER')").antMatchers("/category/**","/manager-tranning/project/**")
                 .access("hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')")
                 .antMatchers("/**").access("hasAnyRole('ROLE_ADMIN')");
 
@@ -48,8 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login?message=error")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?message=logout");
-
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login?message=logout").deleteCookies("JSESSIONID").and().rememberMe().key("uniqueAndSecret").tokenValiditySeconds(86400);
     }
 
 }

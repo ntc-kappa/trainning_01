@@ -163,6 +163,9 @@
                     <p class="text-muted" th:text="${message}" ></p>
                     <input type="text" name="username" placeholder="Username"  maxlength="15" minlength="1" pattern="^[a-zA-Z0-9_.-]*$">
                     <input type="password" name="password" placeholder="Password" minlength="8">
+
+                    <input  type="checkbox" name="remember-me" />
+                    <a class="forgot text-muted">Nhớ mật khẩu</a><br>
                     <a class="forgot text-muted" th:href="@{/resisger}">Chưa có tài khoản ? </a>
 
                     <input type="submit" name="submit" value="Login">

@@ -3,7 +3,10 @@ package com.tas.excel.impl;
 import com.tas.excel.AbtractIOExcel;
 import com.tas.excel.Header;
 import com.tas.exception.NotSupportTypeException;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,18 +23,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IOExcelImpl extends AbtractIOExcel {
-    private IOExcelImpl (){}
+    private IOExcelImpl() {
+    }
+
     private static class SingletonHelper {
         private static final IOExcelImpl INSTANCE = new IOExcelImpl();
     }
-    public static IOExcelImpl getInstance(){
+
+    public static IOExcelImpl getInstance() {
         return SingletonHelper.INSTANCE;
     }
+
     private XSSFWorkbook workbook;
 
 
-    public <K,T extends JpaRepository> XSSFWorkbook exportExcel(T t,Class<K> kClass, File file) throws SAXException, NoSuchFieldException {
-        List<K> entities =t.findAll();
+    public <K, T extends JpaRepository> XSSFWorkbook exportExcel(T t, Class<K> kClass, File file) throws SAXException, NoSuchFieldException {
+        List<K> entities = t.findAll();
         workbook = new XSSFWorkbook();
         if (entities.size() <= 0) {
             return workbook;
@@ -40,34 +47,33 @@ public class IOExcelImpl extends AbtractIOExcel {
 
         XSSFSheet xssfSheet = workbook.createSheet("Position");
         int rowNum = 0;
-        int column = 2;
+
         Cell cell;
         Row row;
-        List<Header> listHeader=null;
+        List<Header> listHeader = null;
         try {
-            listHeader=getHeadderFromXML(file);
-        }catch ( ParserConfigurationException e){
+            listHeader = getHeadderFromXML(file);
+        } catch (ParserConfigurationException e) {
             getLogger().error(e.getMessage());
 
-        } catch (SAXException e1 ){
+        } catch (SAXException e1) {
             getLogger().error(e1.getMessage());
-        }
-        catch (IOException exception){
-          exception.printStackTrace();
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
 
         XSSFCellStyle style = createCellStyle(workbook);
 
 
         row = xssfSheet.createRow(rowNum);
-        for (int i = 0; i <listHeader.size() ; i++) {
-            Header header=listHeader.get(i);
-            cell = row.createCell(i,CellType.STRING);
+        for (int i = 0; i < listHeader.size(); i++) {
+            Header header = listHeader.get(i);
+            cell = row.createCell(i, CellType.STRING);
             cell.setCellValue(header.getValue());
             cell.setCellStyle(style);
         }
         Field[] fields;
-        fields =kClass.getDeclaredFields();
+        fields = kClass.getDeclaredFields();
         for (K entity : entities
         ) {
             rowNum++;
@@ -75,19 +81,19 @@ public class IOExcelImpl extends AbtractIOExcel {
             cell = row.createCell(0, CellType.STRING);
             cell.setCellValue(rowNum);
 
-            for (int i = 0; i <listHeader.size() ; i++) {
-                Header header=listHeader.get(i);
-                Field field=null;
+            for (int i = 0; i < listHeader.size(); i++) {
+                Header header = listHeader.get(i);
+                Field field = null;
                 try {
-                    field= getValue(fields,header.getName());
-                }catch (NoSuchFieldException e){
-                   continue;
+                    field = getValue(fields, header.getName());
+                } catch (NoSuchFieldException e) {
+                    continue;
                 }
 
-                 cell = row.createCell(i,header.getType().getCode());
+                cell = row.createCell(i, header.getType().getCode());
 
                 try {
-                    setCellValueWrapper(cell,field,entity);
+                    setCellValueWrapper(cell, field, entity);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -98,107 +104,112 @@ public class IOExcelImpl extends AbtractIOExcel {
 
         return workbook;
     }
-    public <K,T extends JpaRepository>void importExcel(Workbook workbook, T t,Class<K> kClass,File file){
+
+    public <K, T extends JpaRepository> void importExcel(Workbook workbook, T t, Class<K> kClass, File file) {
         try {
-        XSSFSheet sheet = (XSSFSheet) workbook.getSheetAt(0);
-        Field[] fields=kClass.getDeclaredFields();
+            XSSFSheet sheet = (XSSFSheet) workbook.getSheetAt(0);
+            Field[] fields = kClass.getDeclaredFields();
+            List<Header> headers = getHeadderFromXML(file);
 
-        Iterator<Row> rowIterator = sheet.iterator();
-        List<String> listhead=getImportHeader(rowIterator.next());
-        List<Header> headers=getHeadderFromXML(file);
-        mergeHeaderField(fields,headers);
-        while (rowIterator.hasNext())
-        {
-            Row row = rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
-            K k=kClass.newInstance();
-            for (String s : listhead
-            ){
-                Cell cell = cellIterator.next();
-                Header header=checkCell(s,headers);
-                if(header==null) {
-                    continue;
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            mergeHeaderField(fields, headers);
+            rowIterator.next();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                 K k = kClass.newInstance();
+                for (Header header: headers
+                     ) {
+                    Cell cell=row.getCell(header.getId());
+                    switch (header.getType()) {
+                        case _INTEGER:
+                            header.getField().setInt(k, (int) cell.getNumericCellValue());
+                            getLogger().info((int) cell.getNumericCellValue());
+                            break;
+                        case STRING:
+                            header.getField().set(k, cell.getStringCellValue());
+                            getLogger().info(cell.getStringCellValue());
+                            break;
+                        case _DOUBLE:
+                            header.getField().set(k, cell.getNumericCellValue());
+                            getLogger().info((int) cell.getNumericCellValue());
+                            break;
+                        default:
+                            break;
+                    }
                 }
-
-                switch (header.getType())
-                {
-                    case _INTEGER:
-                        header.getField().setInt(k,(int)cell.getNumericCellValue());
-                        break;
-                    case STRING:
-                        header.getField().set(k,cell.getStringCellValue());
-                        break;
-                    case _DOUBLE:
-                        header.getField().set(k,cell.getNumericCellValue());
-                        break;
-                    default:break;
-                }
-             }
-            t.save(k);
+                t.save(k);
 
 
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+
+
+
     }
-        catch (Exception e)
-    {
-        e.printStackTrace();
-    }
-    }
-    public Field getValue(final Field[] fields,String name) throws NoSuchFieldException {
-        for (Field field: fields
-             ) {
-            if(field.getName().equals(name)){
+
+    public Field getValue(final Field[] fields, String name) throws NoSuchFieldException {
+        for (Field field : fields
+        ) {
+            if (field.getName().equals(name)) {
                 return field;
             }
         }
         throw new NoSuchFieldException();
     }
-    public <K>void setCellValueWrapper(Cell cell,Field field,K k) throws IllegalAccessException {
+
+    public <K> void setCellValueWrapper(Cell cell, Field field, K k) throws IllegalAccessException {
         field.setAccessible(true);
-        Object value=field.get(k);
-        if(value instanceof String){
-            cell.setCellValue((String)value);
-        } else if (value instanceof Boolean){
-            cell.setCellValue((Boolean)value) ;
-        }else  if(value instanceof Double){
-            cell.setCellValue((Double)value );
-        } else if(value instanceof java.sql.Date){
-            cell.setCellValue((Date)value);
-        }else {
+        Object value = field.get(k);
+        if (value instanceof String) {
+            cell.setCellValue((String) value);
+        } else if (value instanceof Boolean) {
+            cell.setCellValue((Boolean) value);
+        } else if (value instanceof Double) {
+            cell.setCellValue((Double) value);
+        } else if (value instanceof java.sql.Date) {
+            cell.setCellValue((Date) value);
+        } else {
             throw new NotSupportTypeException();
         }
     }
-    public List<String> getImportHeader(Row row){
-         List<String> listHeader=new ArrayList<>();
+
+    public List<String> getImportHeader(Row row) {
+        List<String> listHeader = new ArrayList<>();
         Iterator<Cell> cellIterator = row.cellIterator();
-        while (cellIterator.hasNext())
-        {
+        while (cellIterator.hasNext()) {
             Cell cell = cellIterator.next();
             listHeader.add(cell.getStringCellValue());
         }
         return listHeader;
     }
-    public Header checkCell(String name,List<Header> headers) throws NoSuchFieldException{
+
+    public Header checkCell(String name, List<Header> headers) throws NoSuchFieldException {
         for (Header header : headers
-        ){
-                if(header.getValue().equals(name)){
-                    return header;
-                }
+        ) {
+            if (header.getValue().equals(name)) {
+                return header;
+            }
         }
         return null;
     }
-    public void mergeHeaderField(Field[] fields,List<Header> headers){
-        for (Header header : headers
-        ){
 
-                for (Field field:fields
-                ) {
-                    if(field.getName().equals(header.getName())){
-                        header.setField(field);
-                        header.getField().setAccessible(true);
-                        break;
-                    }
+    public void mergeHeaderField(Field[] fields, List<Header> headers) {
+        for (Header header : headers
+        ) {
+
+            for (Field field : fields
+            ) {
+                if (field.getName().equals(header.getName())) {
+                    header.setField(field);
+                    header.getField().setAccessible(true);
+                    break;
+                }
 
             }
         }
