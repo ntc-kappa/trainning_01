@@ -8,6 +8,7 @@ import com.tas.repository.UserRepository;
 import com.tas.service.UserService;
 import com.tas.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,6 +57,9 @@ public class UserController {
 
         return "redirect:/manager-tranning/users";
     }
-
+    @Bean
+    public  StringBuilder stringBuilder(){
+        return new StringBuilder("Quang");
+    }
 
 }

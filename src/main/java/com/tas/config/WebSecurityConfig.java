@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasAnyRole('ROLE_MANAGER','ROLE_ADMIN')")
                 .antMatchers("/**").access("hasAnyRole('ROLE_ADMIN')");
 
-
+        Object
 
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/home");
         http.authorizeRequests().and().formLogin()
@@ -52,3 +52,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+

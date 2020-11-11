@@ -8,10 +8,13 @@ import com.tas.entity.UserEntity;
 import com.tas.repository.RoleRepository;
 import com.tas.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,8 +27,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-
-@Controller
+@Component
 public class HomeController implements Loggable {
     @Autowired
     UserRepository userRepository;
@@ -38,8 +40,16 @@ public class HomeController implements Loggable {
         model.addAttribute("userName", PageConfig.HELLO +principal.getName()+ " !");
         return "home";
     }
+
+//    StringBuilder builder;
+//
+//    public HomeController(StringBuilder builder) {
+//        this.builder = builder;
+//    }
+
     @RequestMapping(value = { "/login"})
     public String login(HttpServletRequest request, final Model model) {
+
         String message=request.getParameter("message");
         if (message != null && !message.isEmpty()) {
 

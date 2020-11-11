@@ -11,6 +11,7 @@ public class LogDeleteUserFailure {
     private String messeage;
     private String stackTrace;
     private Date occurredAt;
+    private Integer idUser;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -66,5 +67,15 @@ public class LogDeleteUserFailure {
     @Override
     public int hashCode() {
         return Objects.hash(id, messeage, stackTrace, occurredAt);
+    }
+
+    @Basic
+    @Column(name = "id_user", nullable = true)
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 }

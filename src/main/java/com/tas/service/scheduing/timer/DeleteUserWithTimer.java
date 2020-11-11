@@ -19,7 +19,7 @@ public class DeleteUserWithTimer {
         TimerTask timerTask=new TimerTask() {
             @Override
             public void run() {
-                userRepository.deleteNotActive();
+//                userRepository.deleteNotActive();
             }
         };
         long delay=30*24*3600*1000;

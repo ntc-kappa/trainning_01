@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.List;
@@ -32,9 +33,13 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer> {
     UserEntity findByEmail(String Email);
 
     UserEntity findOneByUsername(String username);
+
     @Transactional
     @Modifying
-    @Query(value="DELETE from user  WHERE user.is_active=0",nativeQuery = true)
-    void deleteNotActive();
+    @Query(value="delete from user_role where id_user=?1 ;delete from user_position where id_user=?1 ;delete from user_department where id_user=?1 ;delete from user_project_position where id_user=?1 ;delete from user where id=?1 ;",nativeQuery = true)
+    void deleteNotActive(Integer id);
+
+    @Query(value="SELECT from user  WHERE user.is_active=0",nativeQuery = true)
+    List<Integer> findUserNotActive();
 
 }
